@@ -6,25 +6,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const Schema = new Schema({
-    street: {type: String, required: true},
-    streetNo: {type: String, required: true},
-    city: {type: String, required: true},
-    zip: {type: String, required: true},
-    country: {type: String, required: true}
-}, {_id: false});
-
 const {Schema, model} = mongoose;
 
-const AddressSchema = new Schema({
-    street: {type: String, required: true},
-    streetNo: {type: String, required: true},
-    city: {type: String, required: true},
-    zip: {type: String, required: true},
-    country: {type: String, required: true}
+const portfolioSchema = new Schema({
+    name: {type: String, required: true},
+    job: {type: String, required: true},
+    //images: [{type: String}],
+    description: {type: String, required: true},    
 }, {_id: false});
 
 const UserSchema = new Schema({
+    avatar: {
+        type: string, 
+        required: [true, 'avatar is required']
+    },
     firstName: {
         type: String,
         required: [true, 'first name is required']
@@ -37,7 +32,7 @@ const UserSchema = new Schema({
         type: String,
         enum: ['Admin', 'User'],
         default: 'User',
-        required: [true, `User role is required`]
+        required: [true, `user role is required`]
     },
     username: {
         type: String,
@@ -54,15 +49,36 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true //validates the address
+        unique: true 
+    },
+    jobTitle: {
+        type: String, ref: 'Job', 
+        required: [true, 'username is required']
     },
     bookmark: [{
         project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-        quantity: {type: Number, required: false},
+        quantity: {type: Number, required: false}
         
     }, {_id: false}],
-    address: AddressSchema
+    project: [{
+        project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+        quantity: {type: Number, required: false}
+        
+    }, {_id: false}],
+    ownedProject: [{
+        project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+        quantity: {type: Number, required: false}
+    }],
+    portfolio: portfolioSchema,
 }, 
+{
+    toJSON: {
+        transform: (original, returnedDoc) => {
+        delete returnedDoc.password;
+        }
+    }
+},
+
 {
     versionKey: false, 
     timestamps: true, 
@@ -73,3 +89,5 @@ UserSchema.virtual('fullName').get(function(){
     return `${this.firstName} ${this.lastName}`;
 });
 
+const User = model('User', UserSchema);
+export default User;
