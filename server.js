@@ -1,24 +1,25 @@
 import express from 'express';
-const app = express();
-
-import './configs/config.js';
-
+import mongoose from 'mongoose';
+//import './configs/config.js';
 import createError from 'http-errors';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import './configs/mongo-connect.js'
+import './configs/mongo-connect.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
+const app = express();
 
 /** EXPRESS MIDDLEWARE */
 app.use(express.json({ limit: '10MB' }));
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(cors({origin: process.env.FRONTEND_ORIGIN, credentials: true}));
 app.use( cookieParser() );
 
 
 /** ENDPOINTS */
 app.get('/', (req, res) => {
-    res.send(`<h1>Staging Berlin</h1>`);
+    res.send(`<h1>Welcome to Staging Berlin</h1>`);
 });
 
 
@@ -33,10 +34,10 @@ app.use((req, res, next) => {
 });
 
 
-const port = 5000
+const port = 5000;
 
 app.listen(port, () => {
-    console.log(`App listening 🦻 at http://localhost:${port}`);
+    console.log(`SB listening 🦻 at http://localhost:${port}`);
 });
 
 /** ERROR HANDLING */
