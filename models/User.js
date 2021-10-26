@@ -18,8 +18,8 @@ const portfolioSchema = new Schema({
 
 const UserSchema = new Schema({
     avatar: {
-        type: string, 
-        required: [true, 'avatar is required']
+        type: String, 
+        required: false
     },
     firstName: {
         type: String,

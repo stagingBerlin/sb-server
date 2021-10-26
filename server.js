@@ -6,6 +6,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import './configs/mongo-connect.js';
 import dotenv from 'dotenv';
+import usersRouter from './routes/usersRouter.js';
+import projectsRouter from './routes/projectsRouter.js';
 
 dotenv.config();
 
@@ -24,7 +26,8 @@ app.get('/', (req, res) => {
 
 
 /** ROUTES */
-
+app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
 
 
 /** ANY OTHER ROUTE */
