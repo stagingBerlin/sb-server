@@ -38,7 +38,7 @@ export const createUser = async (req, res, next) => {
 
       const savedUser = await user.save();
       req.user = savedUser;
-      next();
+      res.json(savedUser);
   
     } catch (err) {
       console.log(err);
@@ -54,16 +54,11 @@ export const updateUser = async(req, res, next)=> {
       let user = await User.findById(id);
      
       //* depending on google user or not
-      if (user.password) {
-        Object.assign(user, req.body);
-        user = await user.save();
-      } else {
-        user = await User.findByIdAndUpdate(id, req.body, {new: true});
-      }
+      
       let newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
       if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
-      res.json(newUser)
+      res.json(newUser);
         
     } catch(error) {
         next(error);
