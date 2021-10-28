@@ -1,21 +1,20 @@
 import express from 'express';
-import mongoose from 'mongoose';
-//import './configs/config.js';
 import createError from 'http-errors';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import './configs/mongo-connect.js';
-import dotenv from 'dotenv';
+import config from './configs/config.js'; 
+
 import usersRouter from './routes/usersRouter.js';
 import projectsRouter from './routes/projectsRouter.js';
+import jobsRouter from './routes/jobsRouter.js';
 
-dotenv.config();
 
 const app = express();
 
 /** EXPRESS MIDDLEWARE */
 app.use(express.json({ limit: '10MB' }));
-app.use(cors({origin: process.env.FRONTEND_ORIGIN, credentials: true}));
+app.use(cors({origin: config.frontendOrigin, credentials: true}));
 app.use( cookieParser() );
 
 
@@ -28,6 +27,7 @@ app.get('/', (req, res) => {
 /** ROUTES */
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
+app.use('/jobs', jobsRouter);
 
 
 /** ANY OTHER ROUTE */
@@ -37,10 +37,10 @@ app.use((req, res, next) => {
 });
 
 
-const port = 5000;
+const port = config.port;
 
 app.listen(port, () => {
-    console.log(`SB listening 🦻 at http://localhost:${port}`);
+    console.log(`SB listening 🦻 at http://localhost:${port} 💪`);
 });
 
 /** ERROR HANDLING */
