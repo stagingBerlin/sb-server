@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-//import jwt from 'jsonwebtoken';
-//import config from '../config/config.js';
+import jwt from 'jsonwebtoken';
+import config from '../configs/config.js';
 //import bcrypt from 'bcryptjs';
 
 const {Schema, model} = mongoose;
@@ -122,5 +122,26 @@ UserSchema.virtual('fullName').get(function(){
     return `${this.firstName} ${this.lastName}`;
 });
 
+UserSchema.methods.generateAuthToken = function () {
+    const user = this; 
+    const token = jwt.sign( {_id: user._id}, config.secretKey, { expiresIn: "2d" })
+    console.log(`we created a token for ${user.firstName} =>`, token);
+    return token
+}
+  
+UserSchema.statics.findByToken = function (token) {
+    const User = this; // this is the user we called our method on
+    try {
+      // verify the token
+      let decoded = jwt.verify(token, config.secretKey)
+    
+      // See if user with that is exist
+      return User.findOne({_id: decoded._id});
+      
+    } catch (error) {
+      return 
+    }
+}
+  
 const User = model('User', UserSchema);
 export default User;

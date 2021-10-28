@@ -1,5 +1,5 @@
 import createError from "http-errors"
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 const auth = async (req, res, next) => {
     
