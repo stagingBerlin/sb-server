@@ -37,7 +37,7 @@ const UserSchema = new Schema({
     },
     username: {
         type: String,
-        required: [true, 'username is required'],
+        required: false,
         unique: true 
     },
     password: {
@@ -59,17 +59,14 @@ const UserSchema = new Schema({
     bookmark: [{
         projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
         quantity: {type: Number, required: false}
-        
     }, {_id: false}],
-    // joinedProject: [{
-    //     projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-    //     quantity: {type: Number, required: false}
-        
-    // }, {_id: false}],
-    // ownedProject: [{
-    //     project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-    //     quantity: {type: Number, required: false}
-    // }],
+    joinedProject: [{
+        projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+    }, {_id: false}],
+    appliedProject:[{type: Schema.Types.ObjectId, ref: 'Project', required: false}, {_id: false}],
+    ownedProject: [{
+        project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+    }],
     portfolio: portfolioSchema,
 }, 
 // {

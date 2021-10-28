@@ -5,9 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "prod": "NODE_ENV=production nodemon server.js",
+    "seed-job-dev": "node seeds/seed_job.js",
+    "seed-job-prod": "NODE_ENV=production node seeds/seed_job.js",
+    "seed-dev": "node seeds/seed.js",
+    "seed-prod": "NODE_ENV=production node seeds/seed.js"
   },
   "keywords": [],
   "author": "",

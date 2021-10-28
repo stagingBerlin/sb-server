@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 const {Schema, model} = mongoose;
 
-const jobSchema = new Schema({
-    title: {type: String, required: true},
+const JobSchema = new Schema({
+    title: {type: String, required: true, unique: true},
     description: {type: String, required: false},    
-}, {_id: false});
+}, {
+    versionKey: false
+});
 
 const Job = model('Job', JobSchema);
 
