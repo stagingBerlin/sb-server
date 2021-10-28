@@ -37,11 +37,10 @@ export const createUser = async (req, res, next) => {
       // user.verified.token = verifyToken;
 
       const savedUser = await user.save();
-      req.user = savedUser;
-      res.json(savedUser);
-  
+      const populatedUser = await User.find({_id : savedUser._id}).populate('profession.jobTitle')
+      req.user = populatedUser;
+      next();
     } catch (err) {
-      console.log(err);
       next(err);
     }
   };

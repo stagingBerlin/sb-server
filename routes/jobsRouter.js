@@ -9,7 +9,7 @@ import {
     deleteJob
 } from '../controllers/jobsControllers.js';
 
-import auth from '../middlewares/auth.js'
+// import auth from '../middlewares/authentication/auth.js'
 
 // create admin middleware for this route
 

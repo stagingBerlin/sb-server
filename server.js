@@ -8,6 +8,7 @@ import config from './configs/config.js';
 import usersRouter from './routes/usersRouter.js';
 import projectsRouter from './routes/projectsRouter.js';
 import jobsRouter from './routes/jobsRouter.js';
+import authRouter from './routes/authRouter.js';
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 
 /** ROUTES */
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/jobs', jobsRouter);
