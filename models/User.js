@@ -2,9 +2,6 @@ import mongoose from 'mongoose';
 //import jwt from 'jsonwebtoken';
 //import config from '../config/config.js';
 //import bcrypt from 'bcryptjs';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const {Schema, model} = mongoose;
 
@@ -53,20 +50,53 @@ const UserSchema = new Schema({
         required: true,
         unique: true 
     },
-    profession: [{
-        jobTitle: {type: Schema.Types.ObjectId, ref: 'Job', required: true}
-    }, {_id: false}],
-    bookmark: [{
-        projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-        quantity: {type: Number, required: false}
-    }, {_id: false}],
-    joinedProject: [{
-        projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-    }, {_id: false}],
-    appliedProject:[{type: Schema.Types.ObjectId, ref: 'Project', required: false}, {_id: false}],
-    ownedProject: [{
-        project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-    }],
+    profession: [
+        {
+            jobTitle: {
+                type: Schema.Types.ObjectId, ref: 'Job', required: true
+            }, 
+            _id:false
+        }
+    ],
+    bookmark: [
+        {
+            projectTitle: {
+                type: Schema.Types.ObjectId, ref: 'Project', required: false
+            },
+            quantity: {type: Number, required: false},
+            _id:false
+        },
+    ],
+    joinedProject: [
+        {
+            projectTitle: {
+                type: Schema.Types.ObjectId, 
+                ref: 'Project', 
+                required: false
+            },
+            _id:false
+        }
+    ],
+    appliedProject:[
+        {
+            projectTitle:{
+                type: Schema.Types.ObjectId,
+                ref: 'Project', 
+                required: false
+            },  
+            _id:false
+        }
+    ],
+    ownedProject: [
+        {
+            project: {
+                type: Schema.Types.ObjectId, 
+                ref: 'Project', 
+                required: false
+            },
+            _id:false
+        }
+    ],
     portfolio: portfolioSchema,
 }, 
 // {
@@ -80,7 +110,12 @@ const UserSchema = new Schema({
 {
     versionKey: false, 
     timestamps: true, 
-    toJSON: { virtuals: true } 
+    toJSON: { 
+        virtuals: true,
+        transform: (original, returnedDoc) => {
+            delete returnedDoc.password;
+        } 
+    } 
 });
 
 UserSchema.virtual('fullName').get(function(){
