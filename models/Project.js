@@ -31,7 +31,11 @@ const ProjectSchema = new Schema({
     isHiring: {
         type: Boolean,
         default: true
-    }
+    },
+    participants : [{
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+    }]
 }) 
 
 const Project = model('Project', ProjectSchema);

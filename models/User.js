@@ -61,15 +61,15 @@ const UserSchema = new Schema({
         quantity: {type: Number, required: false}
         
     }, {_id: false}],
-    project: [{
-        projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-        quantity: {type: Number, required: false}
+    // joinedProject: [{
+    //     projectTitle: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+    //     quantity: {type: Number, required: false}
         
-    }, {_id: false}],
-    ownedProject: [{
-        project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
-        quantity: {type: Number, required: false}
-    }],
+    // }, {_id: false}],
+    // ownedProject: [{
+    //     project: {type: Schema.Types.ObjectId, ref: 'Project', required: false},
+    //     quantity: {type: Number, required: false}
+    // }],
     portfolio: portfolioSchema,
 }, 
 // {
