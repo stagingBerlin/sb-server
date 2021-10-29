@@ -128,7 +128,7 @@ UserSchema.virtual('fullName').get(function(){
 UserSchema.methods.generateAuthToken = function () {
     const user = this; 
     const token = jwt.sign( {_id: user._id}, config.secretKey, { expiresIn: "2d" })
-    console.log(`we created a token for ${user.firstName} =>`, token);
+    console.log(`we created a token for ${user.email} =>`, token);
     return token
 }
   
