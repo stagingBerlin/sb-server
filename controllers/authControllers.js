@@ -9,6 +9,7 @@ export const signup = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(password, salt);
+    
     const user = await User.create({ ...body, password: hash, avatar: req.cloudFileUrl });
     const token = user.generateAuthToken();
   

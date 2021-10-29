@@ -49,3 +49,16 @@ export const userValidationErrorHandling = (req, res, next) => {
 const mergeErrors = (arrErrors) => {
   return arrErrors.map((err) => `${err.msg}`).join(' ');
 };
+
+
+// take username from email input
+export const generateUsername = (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const username =  email.split('@')[0];
+    req.body.username = username;
+    next()
+  } catch (error) {
+    next(error);
+  }
+}

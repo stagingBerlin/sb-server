@@ -2,10 +2,10 @@ import createError from 'http-errors';
 import { v2 as cloudinary } from 'cloudinary';
 
 const uploadImage = async (req, res, next) => {
-  if (req.body.imageUrl) {
+  if (req.body.avatar) {
     try {
       cloudinary.uploader.upload(
-        req.body.imageUrl,
+        req.body.avatar,
         {
           folder: 'avatar_images/',
           use_filename: true,

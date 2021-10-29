@@ -15,6 +15,7 @@ import faker from 'faker'
 
     const allJobs = await Job.find();
     const jobsIds = allJobs.map(job => job._id)
+    const booleans = [ false, true ]
 
     const userPromises = Array(20)
     .fill(null)
@@ -25,8 +26,11 @@ import faker from 'faker'
         email: faker.internet.email(),
         password: '0123456789',
         username: faker.internet.userName(),
+        isHiring: faker.random.arrayElement(booleans),
         profession: [
-            {jobTitle: faker.random.arrayElement(jobsIds)}
+            { 
+                jobTitle: faker.random.arrayElement(jobsIds)
+            }
         ]
         
         };

@@ -23,7 +23,7 @@ const jobs = [
     }
 
     const jobsPromises = jobs.map(job => {
-        const jobData = {title: job.title}
+        const jobData = { title: job.title }
         console.log(`Job ${jobData.title} has been created`);
         const jobToDB = new Job(jobData)
         return jobToDB.save()

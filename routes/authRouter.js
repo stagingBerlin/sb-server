@@ -6,6 +6,7 @@ import {
   signupRules,
   loginRules,
   userValidationErrorHandling,
+  generateUsername
 } from '../middlewares/validation/authValidation.js';
 
 import auth from '../middlewares/authentication/auth.js'
@@ -14,6 +15,7 @@ router.route('/signup').post(
   signupRules(),
   userValidationErrorHandling,
   uploadImage,
+  generateUsername,
   signup
 );
 
