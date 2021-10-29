@@ -20,11 +20,11 @@ const UserSchema = new Schema({
     },
     firstName: {
         type: String,
-        required: [true, 'first name is required']
+        required: false
     },
     lastName: {
         type: String,
-        required: [true, 'last name is required']
+        required: false
     },
     role: {
         type: String,
@@ -53,7 +53,9 @@ const UserSchema = new Schema({
     profession: [
         {
             jobTitle: {
-                type: Schema.Types.ObjectId, ref: 'Job', required: true
+                type: Schema.Types.ObjectId, 
+                ref: 'Job', 
+                required: false
             }, 
             _id:false
         }
@@ -61,9 +63,14 @@ const UserSchema = new Schema({
     bookmark: [
         {
             projectTitle: {
-                type: Schema.Types.ObjectId, ref: 'Project', required: false
+                type: Schema.Types.ObjectId, 
+                ref: 'Project', 
+                required: false
             },
-            quantity: {type: Number, required: false},
+            quantity: {
+                type: Number, 
+                required: false
+            },
             _id:false
         },
     ],
@@ -98,15 +105,11 @@ const UserSchema = new Schema({
         }
     ],
     portfolio: portfolioSchema,
+    isHiring: { 
+        type: Boolean, 
+        required: true 
+    },
 }, 
-// {
-//     toJSON: {
-//         transform: (original, returnedDoc) => {
-//         delete returnedDoc.password;
-//         }
-//     }
-// },
-
 {
     versionKey: false, 
     timestamps: true, 
