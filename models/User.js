@@ -56,9 +56,8 @@ const UserSchema = new Schema({
                 type: Schema.Types.ObjectId, 
                 ref: 'Job', 
                 required: false
-            }, 
-            _id:false
-        }
+            }
+        },{_id:false}
     ],
     bookmark: [
         {
@@ -71,8 +70,7 @@ const UserSchema = new Schema({
                 type: Number, 
                 required: false
             },
-            _id:false
-        },
+        },{_id: false}
     ],
     joinedProject: [
         {
@@ -81,8 +79,7 @@ const UserSchema = new Schema({
                 ref: 'Project', 
                 required: false
             },
-            _id:false
-        }
+        },{_id:false}
     ],
     appliedProject:[
         {
@@ -91,8 +88,7 @@ const UserSchema = new Schema({
                 ref: 'Project', 
                 required: false
             },  
-            _id:false
-        }
+        },{_id: false}
     ],
     ownedProject: [
         {
@@ -101,8 +97,7 @@ const UserSchema = new Schema({
                 ref: 'Project', 
                 required: false
             },
-            _id:false
-        }
+        },{_id: false}
     ],
     portfolio: portfolioSchema,
     isHiring: { 
@@ -121,9 +116,9 @@ const UserSchema = new Schema({
     } 
 });
 
-UserSchema.virtual('fullName').get(function(){
-    return `${this.firstName} ${this.lastName}`;
-});
+// UserSchema.virtual('fullName').get(function(){
+//     return `${this.firstName} ${this.lastName}`;
+// });
 
 UserSchema.methods.generateAuthToken = function () {
     const user = this; 

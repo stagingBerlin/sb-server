@@ -19,11 +19,23 @@ const ProjectSchema = new Schema({
         type: String,
         required: true
     },
-    jobList: [{
-        jobTitle: {type: Schema.Types.ObjectId, ref: 'Job', required: true},
-        quantity: {type: Number, required: true}
-        
-    }, {_id: false}],
+    jobList: [
+        {
+            jobTitle: {
+                type: Schema.Types.ObjectId, 
+                ref: 'Job', 
+                required: true
+            },
+            // quantity: {
+            //     type: Number, 
+            //     required: true
+            // }
+        }, {_id: false}
+    ],
+    starting:{
+        type: Date,
+        required: true
+    },
     deadline: {
         type: Date,
         required: true
@@ -32,10 +44,14 @@ const ProjectSchema = new Schema({
         type: Boolean,
         default: true
     },
-    participants : [{
-        type: Schema.Types.ObjectId, 
-        ref: 'User'
-    }]
+    participants : [
+        {
+            participant: {
+                type: Schema.Types.ObjectId, 
+                ref: 'User'
+            }
+        },{ _id: false }
+    ]
 }) 
 
 const Project = model('Project', ProjectSchema);
