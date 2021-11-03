@@ -18,6 +18,7 @@ const UserSchema = new Schema({
         type: String, 
         required: false
     },
+    name: {type: String, required: false},
     firstName: {
         type: String,
         required: false
