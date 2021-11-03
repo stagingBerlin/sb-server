@@ -4,7 +4,7 @@ const {Schema, model} = mongoose;
 const ProjectSchema = new Schema({
     thumbnail: {
         type: String,
-        required: true
+        required: false
     },
     title: {
         type: String,
@@ -34,11 +34,11 @@ const ProjectSchema = new Schema({
     ],
     starting:{
         type: Date,
-        required: true
+        required: false
     },
     deadline: {
         type: Date,
-        required: true
+        required: false
     },
     isHiring: {
         type: Boolean,
