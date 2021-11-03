@@ -22,7 +22,7 @@ export const signupRules = () => {
         minSymbols: 1,
       })
       .withMessage(
-        'Your password must have: 1 lowercase, 1 Capital, 1 number, & 1 symbol like => !@#$%^&* please'
+        'Your password must be 8 characters long, containing a minimum of 1 lowercase, 1 uppercase, 1 number, & 1 symbol(!@#$%^&*...)'
       ),
   ];
 };
