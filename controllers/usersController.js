@@ -12,7 +12,7 @@ export const getUsers = async(req, res, next) => {
 }
 
 export const getUser = async(req, res, next)=> {
-    const {id} = req.params;
+    const { id } = req.params;
     try {
       const user = await User.findById(id).select('-password');
 
@@ -33,7 +33,12 @@ export const updateUser = async(req, res, next)=> {
      
       //* depending on google user or not
       
-      let newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
+      let newUser = await User.findByIdAndUpdate(id, req.body, { new: true })
+      .populate("profession.jobTitle")
+      .select("-password")
+      console.log(newUser);
+      // console.log(newUser.profession[0].jobTitle);
+      // console.log(newUser.profession[1].jobTitle);
       if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
       res.json(newUser);

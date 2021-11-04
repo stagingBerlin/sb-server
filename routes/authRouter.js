@@ -1,7 +1,6 @@
 import express from 'express';
 const router = express.Router();
 import { login, signup, logout, verifyCookie } from '../controllers/authControllers.js';
-import uploadImage from '../middlewares/uploadImage.js'
 import {
   signupRules,
   loginRules,
@@ -14,7 +13,6 @@ import auth from '../middlewares/authentication/auth.js'
 router.route('/signup').post(
   signupRules(),
   userValidationErrorHandling,
-  uploadImage,
   generateUsername,
   signup
 );

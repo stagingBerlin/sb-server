@@ -57,8 +57,9 @@ const UserSchema = new Schema({
                 type: Schema.Types.ObjectId, 
                 ref: 'Job', 
                 required: false
-            }
-        },{_id:false}
+            },
+            _id:false
+        }
     ],
     bookmark: [
         {
@@ -71,7 +72,8 @@ const UserSchema = new Schema({
                 type: Number, 
                 required: false
             },
-        },{_id: false}
+            _id: false
+        }
     ],
     joinedProject: [
         {
@@ -80,7 +82,8 @@ const UserSchema = new Schema({
                 ref: 'Project', 
                 required: false
             },
-        },{_id:false}
+            _id: false
+        }
     ],
     appliedProject:[
         {
@@ -88,8 +91,9 @@ const UserSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 ref: 'Project', 
                 required: false
-            },  
-        },{_id: false}
+            }, 
+            _id: false 
+        }
     ],
     ownedProject: [
         {
@@ -98,7 +102,8 @@ const UserSchema = new Schema({
                 ref: 'Project', 
                 required: false
             },
-        },{_id: false}
+            _id: false
+        }
     ],
     portfolio: portfolioSchema,
     isHiring: { 
