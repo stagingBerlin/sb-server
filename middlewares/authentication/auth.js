@@ -14,7 +14,6 @@ const auth = async (req, res, next) => {
     
         // if a user exist, pass the user in the req for future use
         req.user = user
-        console.log(req.user);
 
         next()
         

@@ -30,7 +30,9 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email })
+    .populate("profession.jobTitle")
+    .populate("ownedProject.project");
     if (!user) throw new createError(404, `Email not valid`);
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);

@@ -50,9 +50,12 @@ const ProjectSchema = new Schema({
             participant: {
                 type: Schema.Types.ObjectId, 
                 ref: 'User'
-            }
-        },{ _id: false }
+            },
+            _id: false
+        } 
     ]
+},{
+    versionKey: false
 }) 
 
 const Project = model('Project', ProjectSchema);
