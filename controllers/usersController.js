@@ -5,7 +5,6 @@ export const getUsers = async(req, res, next) => {
     try {
         let users = await User.find().sort('lastName').select('-password');
         res.json(users);
-
     } catch(error) {
         next(error);
     }

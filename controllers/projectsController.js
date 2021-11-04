@@ -1,5 +1,6 @@
 import createError from 'http-errors';
 import Project from '../models/Project.js';
+import User from '../models/User.js';
 
 export const getAllProjects = async (req, res, next) => {
     try {
@@ -33,9 +34,19 @@ export const getProject = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
         const body = req.body;
-        const data = { ...body, contact: req.user._id}
-        const createdProject = await Project.create(data);
-    res.json(createdProject);
+        const data = { ...body, owner: req.user._id}
+        const createdProject = await Project.create(data)
+        
+        const updatedUser = await User.findByIdAndUpdate(req.user._id, {ownedProject:[{project: createdProject._id}]}, {new: true} )
+
+        // console.log(updatedUser);
+
+        const populatedProject = await Project.findById(createdProject._id)
+        .populate("owner")
+        .populate("jobList.jobTitle")
+        .populate("participants.participant");
+
+    res.json(populatedProject);
     } catch (error) {
         next(error)
     }
