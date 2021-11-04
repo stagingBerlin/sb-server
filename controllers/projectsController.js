@@ -45,11 +45,10 @@ export const createProject = async (req, res, next) => {
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id, 
-            { $push: { ownedProject: { $each:[ { project: createdProject._id } ] } } }, 
+            { $push: { ownedProject: { project: createdProject._id } } }, 
             { new: true } 
         )
 
-        console.log(updatedUser.ownedProject);
         const populatedProject = await Project.findById(createdProject._id)
         .populate("owner")
         .populate("jobList.jobTitle")
