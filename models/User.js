@@ -60,6 +60,8 @@ const UserSchema = new Schema({
             }
         },{_id:false}
     ],
+        //{default: []},
+    
     bookmark: [
         {
             projectTitle: {

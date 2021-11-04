@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import createError from 'http-errors';
+import Job from '../models/Job.js';
 
 export const getUsers = async(req, res, next) => {
     try {
@@ -33,10 +34,24 @@ export const updateUser = async(req, res, next)=> {
      
       //* depending on google user or not
       
-      let newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
-      if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
+      // let newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
+      // if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
+      if (req.body.profession) {
 
-      res.json(newUser);
+        const professionId = await Job.findOne({
+          title: req.body.profession
+        })
+        
+        delete req.body.profession
+        
+        const newUser = await User.findByIdAndUpdate(id, {
+           $set: req.body,
+           $push: {profession: professionId._id}}, 
+           
+          {new: true, upsert: true})
+         res.json(newUser);
+      }
+   
         
     } catch(error) {
         next(error);
