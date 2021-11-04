@@ -28,7 +28,7 @@ export const updateUser = async(req, res, next)=> {
     const { id } = req.params;
 
     try {
-      let user = await User.findById(id);
+      // let user = await User.findById(id);
      
       //* depending on google user or not
       

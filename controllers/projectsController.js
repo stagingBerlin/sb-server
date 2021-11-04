@@ -34,13 +34,22 @@ export const getProject = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
         const body = req.body;
-        const data = { ...body, owner: req.user._id}
+        const data = { ...body, owner: req.user._id }
         const createdProject = await Project.create(data)
         
-        const updatedUser = await User.findByIdAndUpdate(req.user._id, {ownedProject:[{project: createdProject._id}]}, {new: true} )
+        // const updatedUser = await User.findByIdAndUpdate(
+        //     req.user._id, 
+        //     {ownedProject:[ ]}, 
+        //     { new: true } 
+        // )
 
-        // console.log(updatedUser);
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user._id, 
+            { $push: { ownedProject: { $each:[ { project: createdProject._id } ] } } }, 
+            { new: true } 
+        )
 
+        console.log(updatedUser.ownedProject);
         const populatedProject = await Project.findById(createdProject._id)
         .populate("owner")
         .populate("jobList.jobTitle")
