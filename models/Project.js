@@ -10,7 +10,7 @@ const ProjectSchema = new Schema({
         type: String,
         required: true
     },
-    contact: {
+    owner: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
         required: true
@@ -26,11 +26,12 @@ const ProjectSchema = new Schema({
                 ref: 'Job', 
                 required: true
             },
+            _id: false
             // quantity: {
             //     type: Number, 
             //     required: true
             // }
-        }, {_id: false}
+        }
     ],
     starting:{
         type: Date,
