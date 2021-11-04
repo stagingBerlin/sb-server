@@ -34,8 +34,8 @@ export const updateUser = async(req, res, next)=> {
      
       //* depending on google user or not
       
-      // let newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
-      // if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
+    
+      let newUser;
       if (req.body.profession) {
 
         const professionId = await Job.findOne({
@@ -44,14 +44,19 @@ export const updateUser = async(req, res, next)=> {
         
         delete req.body.profession
         
-        const newUser = await User.findByIdAndUpdate(id, {
+        newUser = await User.findByIdAndUpdate(id, {
            $set: req.body,
            $push: {profession: professionId._id}}, 
            
           {new: true, upsert: true})
-         res.json(newUser);
-      }
+         
+      }  
+      
+        newUser = await User.findByIdAndUpdate(id, req.body, {new: true})
+
+        if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
    
+        res.json(newUser);
         
     } catch(error) {
         next(error);
