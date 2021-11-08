@@ -27,7 +27,7 @@ import faker from 'faker'
       const userData = {
         name: faker.name.firstName(),
         email: faker.internet.email(),
-        password: '0123456789',
+        password: 'Abcd1234!',
         username: faker.internet.userName(),
         isHiring: faker.random.arrayElement(booleans),
         profession: [  

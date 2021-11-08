@@ -27,13 +27,6 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
-<<<<<<< HEAD
-    lastName: {
-      type: String,
-      required: false,
-    },
-=======
->>>>>>> b98d1734b75b6e203a3c5e57069a1c0780219ad9
     role: {
       type: String,
       enum: ["Admin", "User"],
