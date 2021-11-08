@@ -21,17 +21,11 @@ const ProjectSchema = new Schema({
     },
     jobList: [
         {
-            jobTitle: {
-                type: Schema.Types.ObjectId, 
-                ref: 'Job', 
-                required: true
-            },
+            type: Schema.Types.ObjectId, 
+            ref: 'Job', 
+            required: true,
             _id: false
-            // quantity: {
-            //     type: Number, 
-            //     required: true
-            // }
-        }
+        },
     ],
     starting:{
         type: Date,
@@ -47,12 +41,10 @@ const ProjectSchema = new Schema({
     },
     participants : [
         {
-            participant: {
-                type: Schema.Types.ObjectId, 
-                ref: 'User'
-            },
+            type: Schema.Types.ObjectId, 
+            ref: 'User',
             _id: false
-        } 
+        }
     ]
 },{
     versionKey: false
