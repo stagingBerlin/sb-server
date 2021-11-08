@@ -139,7 +139,7 @@ UserSchema.statics.findByToken = function (token) {
       let decoded = jwt.verify(token, config.secretKey)
     
       // See if user with that _id is exist
-      return User.findOne({_id: decoded._id}).populate("profession.title");
+      return User.findOne({_id: decoded._id}).populate("profession");
       
     } catch (error) {
       return 
