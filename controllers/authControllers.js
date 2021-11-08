@@ -7,10 +7,8 @@ export const signup = async (req, res, next) => {
   const body = req.body;
   const { password } = req.body;
   try {
-    const salt = bcrypt.genSaltSync();
-    const hash = bcrypt.hashSync(password, salt);
-    
-    const user = await User.create({ ...body, password: hash });
+
+    const user = await User.create(body);
     const token = user.generateAuthToken();
   
     res

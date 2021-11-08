@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import config from '../configs/config.js';
-//import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 const {Schema, model} = mongoose;
 
@@ -117,9 +117,12 @@ const UserSchema = new Schema({
     } 
 });
 
-// UserSchema.virtual('fullName').get(function(){
-//     return `${this.firstName} ${this.lastName}`;
-// });
+UserSchema.pre('save', function (next) {
+    const user = this;
+    if (!user.isModified('password')) return next();
+    user.password = bcrypt.hashSync(user.password, 9);
+    next();
+});
 
 UserSchema.methods.generateAuthToken = function () {
     const user = this; 

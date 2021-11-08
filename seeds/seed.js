@@ -32,10 +32,9 @@ import faker from 'faker'
         isHiring: faker.random.arrayElement(booleans),
         profession: [  
             faker.random.arrayElement(jobsIds)
-        ]
+            ]
         
         };
-
         console.log(
             `User ${userData.name} with email ${userData.email} has been created`
         );
@@ -45,7 +44,6 @@ import faker from 'faker'
 
     let users;
     try {
-       
         users = await Promise.all(userPromises);
         console.log(`****************************************************`);
         console.log(`All 20 fake users have been stored to the DB`);
@@ -54,27 +52,20 @@ import faker from 'faker'
         console.log(error);
     }
 
-    
-
     const projectPromises = Array(20)
     .fill(null)
     .map(() => {
         const randomUser = faker.random.arrayElement(users)
         const jobs = faker.random.arrayElements(jobsIds, 2)
-        // const jobsIds = jobs.map(job => job._id)
-
-       
-
-      const projectData = {
-        title: faker.animal.cetacean(),
-        description: faker.lorem.paragraphs(),
-        owner: randomUser,
-        authorship: faker.name.firstName(),
-        jobList : [  
-            {job : jobs[0]},
-            {job : jobs[1]}
-        ]
-        
+        const projectData = {
+          title: faker.animal.cetacean(),
+          description: faker.lorem.paragraphs(),
+          owner: randomUser,
+          authorship: faker.name.firstName(),
+          jobList : [  
+              {job : jobs[0]},
+              {job : jobs[1]}
+          ]
         };
 
         console.log(
@@ -84,7 +75,9 @@ import faker from 'faker'
         const project = new Project(projectData);
         return project.save().then(item => {
             return User.findByIdAndUpdate(randomUser._id, 
-                { $push: {ownedProject : item._id} }, {new: true})
+                { $push: { ownedProject : item._id } }, 
+                {new: true}
+            )
         });
     });
     
