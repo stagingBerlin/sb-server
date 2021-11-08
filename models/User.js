@@ -139,17 +139,18 @@ UserSchema.methods.generateAuthToken = function () {
 };
 
 UserSchema.statics.findByToken = function (token) {
-  const User = this; // this is the user we called our method on
-  try {
-    // verify the token
-    let decoded = jwt.verify(token, config.secretKey);
-
-    // See if user with that _id is exist
-    return User.findOne({ _id: decoded._id }).populate("profession");
-  } catch (error) {
-    return;
-  }
-};
-
-const User = model("User", UserSchema);
+    const User = this; // this is the user we called our method on
+    try {
+      // verify the token
+      let decoded = jwt.verify(token, config.secretKey)
+    
+      // See if user with that _id is exist
+      return User.findOne({_id: decoded._id}).populate("profession");
+      
+    } catch (error) {
+      return 
+    }
+}
+  
+const User = model('User', UserSchema);
 export default User;

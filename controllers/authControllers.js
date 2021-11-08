@@ -10,7 +10,7 @@ export const signup = async (req, res, next) => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(password, salt);
     
-    const user = await User.create({ ...body, password: hash, avatar: req.cloudFileUrl });
+    const user = await User.create({ ...body, password: hash });
     const token = user.generateAuthToken();
     
     res
@@ -64,5 +64,6 @@ export const logout = async (req, res, next) => {
 };
 
 export const verifyCookie = (req, res, next) => {
+  console.log(req.user);
   res.send(req.user);
 };

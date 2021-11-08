@@ -13,8 +13,8 @@ export const getAllProjects = async (req, res, next) => {
 
 export const getOwnProjects = async (req, res, next) => {
     try {
-        const ownedProjecs = await Project.find({ contact: req.user._id }).sort('title')
-        res.json(ownedProjecs)
+        const ownedProjects = await Project.find({ contact: req.user._id }).sort('title')
+        res.json(ownedProjects)
     } catch (error) {
         next(error)
     }
