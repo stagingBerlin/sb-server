@@ -10,6 +10,10 @@ const ProjectSchema = new Schema({
         type: String,
         required: true
     },
+    description:{
+        type: String, 
+        required: true
+    },
     owner: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
@@ -21,11 +25,19 @@ const ProjectSchema = new Schema({
     },
     jobList: [
         {
-            type: Schema.Types.ObjectId, 
-            ref: 'Job', 
-            required: true,
+            job:{
+                type: Schema.Types.ObjectId, 
+                ref: 'Job', 
+                required: true,
+                _id: false
+            },
+            participant: {
+                type: Schema.Types.ObjectId, 
+                ref: 'User',
+                _id: false
+            },
             _id: false
-        },
+        }
     ],
     starting:{
         type: Date,

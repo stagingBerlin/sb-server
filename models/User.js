@@ -27,10 +27,13 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
+<<<<<<< HEAD
     lastName: {
       type: String,
       required: false,
     },
+=======
+>>>>>>> b98d1734b75b6e203a3c5e57069a1c0780219ad9
     role: {
       type: String,
       enum: ["Admin", "User"],
@@ -145,7 +148,11 @@ UserSchema.statics.findByToken = function (token) {
       let decoded = jwt.verify(token, config.secretKey)
     
       // See if user with that _id is exist
-      return User.findOne({_id: decoded._id}).populate("profession");
+      return User.findOne({_id: decoded._id})
+      .populate("profession")
+      .populate("ownedProject")
+      .populate("appliedProject")
+      .populate("bookmark");
       
     } catch (error) {
       return 
