@@ -1,16 +1,12 @@
 import createError from 'http-errors';
 import config from '../configs/config.js';
 import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
 
 export const signup = async (req, res, next) => {
   const body = req.body;
-  const { password } = req.body;
   try {
-
     const user = await User.create(body);
     const token = user.generateAuthToken();
-    
     res
       .cookie('token', token, {
         expires: new Date(Date.now() + 172800000), //1.728e+8
@@ -19,7 +15,6 @@ export const signup = async (req, res, next) => {
         httpOnly: true,
       })
       .send(user);
-    // res.json(newUser)
   } catch (error) {
     next(error);
   }
