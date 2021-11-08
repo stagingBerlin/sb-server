@@ -10,7 +10,7 @@ export const signup = async (req, res, next) => {
 
     const user = await User.create(body);
     const token = user.generateAuthToken();
-  
+    
     res
       .cookie('token', token, {
         expires: new Date(Date.now() + 172800000), //1.728e+8

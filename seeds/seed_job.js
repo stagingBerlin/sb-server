@@ -5,11 +5,11 @@ import Job from '../models/Job.js'
 
 const jobs = [
     {title: "Actor"},
-    {title: "Dancer"},
-    {title: "Musician"},
     {title: "Costume"},
-    {title: "Photographer"},
+    {title: "Dancer"},
     {title: "Lights"},
+    {title: "Musician"},
+    {title: "Photographer"},
     {title: "Stage-set"},
     {title: "Singer"},
 ];
