@@ -66,10 +66,10 @@ import faker from 'faker'
        
 
       const projectData = {
-        title: faker.name.firstName(),
-        description: faker.internet.email(),
+        title: faker.animal.cetacean(),
+        description: faker.lorem.paragraphs(),
         owner: randomUser,
-        authorship: faker.internet.userName(),
+        authorship: faker.name.firstName(),
         jobList : [  
             {job : jobs[0]},
             {job : jobs[1]}
