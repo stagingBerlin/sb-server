@@ -33,7 +33,8 @@ export const updateUser = async(req, res, next)=> {
       //* depending on google user or not
       
       let newUser = await User.findByIdAndUpdate(id, req.body, { new: true })
-      .populate("profession.jobTitle")
+      .populate("profession")
+      .populate("ownedProject")
       .select("-password")
       console.log(newUser);
       // console.log(newUser.profession[0].jobTitle);

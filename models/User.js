@@ -16,7 +16,7 @@ const portfolioSchema = new Schema({
 const UserSchema = new Schema({
     avatar: {
         type: String, 
-        required: false
+        default: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/320px-User-avatar.svg.png"
     },
     name: {type: String, required: false},
     firstName: {
@@ -48,16 +48,14 @@ const UserSchema = new Schema({
     // },
     email: {
         type: String,
-        required: true,
+        required:  [true, 'email is required'],
         unique: true 
     },
     profession: [
         {
-            jobTitle: {
-                type: Schema.Types.ObjectId, 
-                ref: 'Job', 
-                required: false
-            },
+            type: Schema.Types.ObjectId, 
+            ref: 'Job', 
+            required: false,
             _id:false
         }
     ],
@@ -97,11 +95,11 @@ const UserSchema = new Schema({
     ],
     ownedProject: [
         {
-            project: {
-                type: Schema.Types.ObjectId, 
-                ref: 'Project', 
-                required: false
-            },
+     
+            type: Schema.Types.ObjectId, 
+            ref: 'Project', 
+            required: false,
+            
             _id: false
         }
     ],
@@ -114,6 +112,7 @@ const UserSchema = new Schema({
 {
     versionKey: false, 
     timestamps: true, 
+    id:false,
     toJSON: { 
         virtuals: true,
         transform: (original, returnedDoc) => {
@@ -139,8 +138,8 @@ UserSchema.statics.findByToken = function (token) {
       // verify the token
       let decoded = jwt.verify(token, config.secretKey)
     
-      // See if user with that is exist
-      return User.findOne({_id: decoded._id});
+      // See if user with that _id is exist
+      return User.findOne({_id: decoded._id}).populate("profession.title");
       
     } catch (error) {
       return 
