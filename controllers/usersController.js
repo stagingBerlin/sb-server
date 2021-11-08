@@ -32,13 +32,14 @@ export const updateUser = async(req, res, next)=> {
      
       //* depending on google user or not
       
-      let newUser = await User.findByIdAndUpdate(id, req.body, { new: true })
+      let newUser = await User.findByIdAndUpdate(
+        id, 
+        {...req.body, avatar: req.cloudFileUrl}, 
+        { new: true })
       .populate("profession")
       .populate("ownedProject")
       .select("-password")
       console.log(newUser);
-      // console.log(newUser.profession[0].jobTitle);
-      // console.log(newUser.profession[1].jobTitle);
       if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
       res.json(newUser);
