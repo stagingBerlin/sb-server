@@ -7,7 +7,7 @@ const uploadImage = async (req, res, next) => {
       cloudinary.uploader.upload(
         req.body.avatar,
         {
-          folder: `staging_berlin/${req.user.email}`,
+          folder: `staging_berlin/users/${req.user.email}/avatar`,
           use_filename: true,
         },
         (error, result) => {

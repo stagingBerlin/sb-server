@@ -9,6 +9,7 @@ import usersRouter from './routes/usersRouter.js';
 import projectsRouter from './routes/projectsRouter.js';
 import jobsRouter from './routes/jobsRouter.js';
 import authRouter from './routes/authRouter.js';
+import notificationsRouter from './routes/notificationsRouter.js';
 
 
 const app = express();
@@ -30,6 +31,7 @@ app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/jobs', jobsRouter);
+app.use('/notifications', notificationsRouter);
 
 
 /** ANY OTHER ROUTE */
