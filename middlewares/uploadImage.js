@@ -7,13 +7,11 @@ const uploadImage = async (req, res, next) => {
       cloudinary.uploader.upload(
         req.body.avatar,
         {
-          folder: 'avatar_images/',
+          folder: `staging_berlin/${req.user.email}`,
           use_filename: true,
         },
         (error, result) => {
           if (error) next(new createError(404, `Image was not valid`));
-
-          // console.log('CLOUD', result);
           req.cloudFileUrl = result.secure_url;
           next();
         }
