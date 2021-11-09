@@ -1,6 +1,7 @@
 import createError from 'http-errors';
 import config from '../configs/config.js';
 import User from '../models/User.js';
+import bcrypt from 'bcryptjs'
 
 export const signup = async (req, res, next) => {
   const body = req.body;
@@ -57,6 +58,5 @@ export const logout = async (req, res, next) => {
 };
 
 export const verifyCookie = (req, res, next) => {
-  console.log(req.user);
   res.send(req.user);
 };
