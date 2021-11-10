@@ -4,7 +4,6 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import './configs/mongo-connect.js';
 import config from './configs/config.js'; 
-
 import usersRouter from './routes/usersRouter.js';
 import projectsRouter from './routes/projectsRouter.js';
 import jobsRouter from './routes/jobsRouter.js';

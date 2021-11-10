@@ -15,9 +15,7 @@ router.route('/')
 .get(auth, getAllProjects)
 .post(auth, createProject);
 
-router.route('/:id').get(auth, getProject);
-
 router.route('/ownProjects').get(auth, getOwnProjects);
-
+router.route('/:id').get(auth, getProject);
 
 export default router;

@@ -12,8 +12,9 @@ export const getAllProjects = async (req, res, next) => {
 }
 
 export const getOwnProjects = async (req, res, next) => {
+    
     try {
-        const ownedProjects = await Project.find({ contact: req.user._id }).sort('title')
+        const ownedProjects = await Project.find({ owner: req.user._id }).sort('title').populate('owner')
         res.json(ownedProjects)
     } catch (error) {
         next(error)
