@@ -89,7 +89,9 @@ export const deleteOwnProject = async (req, res, next) => {
 }
 
 export const updateOwnProject = async (req, res, next) => {
+    const id = req.project._id;
     try {
+        const newData = req.body
         const updatedProject = await Project.findByIdAndUpdate(
             id, 
             newData, 
@@ -98,6 +100,7 @@ export const updateOwnProject = async (req, res, next) => {
             .populate("jobList")
             .populate("participants");;
         if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
+        res.json(updatedProject)
     } catch (error) {
         next(error)
     }
