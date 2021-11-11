@@ -31,6 +31,11 @@ const ProjectSchema = new Schema({
                 required: true,
                 _id: false
             },
+            description: {
+                type: String,
+                required: true,
+                default: `Give a brief description of the type of work required. \nFor example: Female Contemporary dancer with strong Graham technique (in case the required job is a dancer)`
+            },
             participant: {
                 type: Schema.Types.ObjectId, 
                 ref: 'User',
