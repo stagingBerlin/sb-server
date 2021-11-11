@@ -71,15 +71,18 @@ export const getOwnProjects = async (req, res, next) => {
 
 export const getOwnProject = async (req, res, next) => {
     try {
-        
+        res.json(req.project)
     } catch (error) {
-        
+        next(error)
     }
 }
 
 export const deleteOwnProject = async (req, res, next) => {
+    const id = req.project._id;
     try {
-        
+        const deletedProject = await Project.findByIdAndDelete(id);
+        if(!deletedProject) throw new createError(404, `No Project with _id:${id} can be found.`);
+        res.json({ success: `Project: ${deletedProject.title} with _id:${id} was deleted` });   
     } catch (error) {
         next(error);
     }
@@ -87,11 +90,14 @@ export const deleteOwnProject = async (req, res, next) => {
 
 export const updateOwnProject = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const newData = req.body;
-        const updatedProject = await Project.findByIdAndUpdate(id, newData, { new: true });
-        if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);
-        res.json(updatedProject);  
+        const updatedProject = await Project.findByIdAndUpdate(
+            id, 
+            newData, 
+            { new: true })
+            .populate('owner')
+            .populate("jobList")
+            .populate("participants");;
+        if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
     } catch (error) {
         next(error)
     }
