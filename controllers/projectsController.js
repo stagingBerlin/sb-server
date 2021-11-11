@@ -11,20 +11,13 @@ export const getAllProjects = async (req, res, next) => {
     }
 }
 
-export const getOwnProjects = async (req, res, next) => {
-    
-    try {
-        const ownedProjects = await Project.find({ owner: req.user._id }).sort('title').populate('owner')
-        res.json(ownedProjects)
-    } catch (error) {
-        next(error)
-    }
-}
-
 export const getProject = async (req, res, next) => {
     const { id } = req.params
     try {
-        const project = await Project.findById(id);
+        const project = await Project.findById(id)
+        .populate('owner')
+        .populate('jobList.job');
+
         if(!project) throw new createError(404, `No project with id: ${id} was found.`);
         res.json(project)
     } catch (error) {
@@ -36,15 +29,9 @@ export const createProject = async (req, res, next) => {
     try {
         const body = req.body;
         const data = { ...body, owner: req.user._id }
-        const createdProject = await Project.create(data)
+        const createdProject = await Project.create(data);
         
-        // const updatedUser = await User.findByIdAndUpdate(
-        //     req.user._id, 
-        //     {ownedProject:[]}, 
-        //     { new: true } 
-        // )
-
-        const updatedUser = await User.findByIdAndUpdate(
+        await User.findByIdAndUpdate(
             req.user._id, 
             { $push: { ownedProject: createdProject._id  } }, 
             { new: true } 
@@ -61,26 +48,60 @@ export const createProject = async (req, res, next) => {
     }
 }
 
-export const updateProject = async (req, res, next) => {
+export const deleteProject = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const deletedProject = await Project.findByIdAndDelete(id);
+        if (!deletedProject) throw new createError(404, `No Job with _id:${id} can be found.`);
+        res.json({ success: `Project ${deletedProject.title} with _id:${id} was deleted` });
+    } catch (error) {
+        next(error)
+    }
+}
+
+// ************* Actions for User Owned Projects ********************
+
+export const getOwnProjects = async (req, res, next) => {
+    try {
+        const ownedProjects = await Project.find({ owner: req.user._id })
+        .sort('title')
+        .populate('owner')
+        .populate("jobList")
+        .populate("participants");
+
+        if (!ownedProjects) throw new createError(404, `No projects created`);
+        if (ownedProjects.length === 0) throw new createError(404, `You don't have any projects`);
+        res.json(ownedProjects);
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getOwnProject = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+export const deleteOwnProject = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const updateOwnProject = async (req, res, next) => {
     try {
         const { id } = req.params;
         const newData = req.body;
         const updatedProject = await Project.findByIdAndUpdate(id, newData, { new: true });
-        if (!updatedProject) throw new createError(404, `No job with id:${id} can be found.`);
+        if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);
         res.json(updatedProject);  
     } catch (error) {
         next(error)
     }
 }
 
-export const deleteProject = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const deletedProject = await Project.findByIdAndDelete(id);
-        console.log('THE DELETED JOB', deletedProject)
-        if (!deletedProject) throw new createError(404, `No Job with id:${id} can be found.`);
-        res.json({ success: `Project ${deletedProject.title} with id:${id} was deleted` });
-    } catch (error) {
-        next(error)
-    }
-}
