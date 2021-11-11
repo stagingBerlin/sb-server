@@ -5,7 +5,15 @@ import User from '../models/User.js';
 export const getAllProjects = async (req, res, next) => {
     try {
         const allProjects = await Project.find().sort('title')
-        res.send(allProjects)
+        .populate('owner')
+        .populate({
+            path: 'jobList', 
+            populate: {
+                path: 'job',
+                select: '-_id'
+            },
+        });
+        res.json(allProjects)
     } catch (error) {
         next(error)
     }
@@ -16,8 +24,13 @@ export const getProject = async (req, res, next) => {
     try {
         const project = await Project.findById(id)
         .populate('owner')
-        .populate('jobList.job');
-
+        .populate({
+            path: 'jobList', 
+            populate: {
+                path: 'job',
+                select: '-_id'
+            },
+        });
         if(!project) throw new createError(404, `No project with id: ${id} was found.`);
         res.json(project)
     } catch (error) {
@@ -38,9 +51,14 @@ export const createProject = async (req, res, next) => {
         )
 
         const populatedProject = await Project.findById(createdProject._id)
-        .populate("owner")
-        .populate("jobList")
-        .populate("participants");
+        .populate('owner')
+        .populate({
+            path: 'jobList', 
+            populate: {
+                path: 'job',
+                select: '-_id'
+            },
+        });
 
     res.json(populatedProject);
     } catch (error) {
@@ -97,8 +115,13 @@ export const updateOwnProject = async (req, res, next) => {
             newData, 
             { new: true })
             .populate('owner')
-            .populate("jobList")
-            .populate("participants");;
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                },
+            });
         if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
         res.json(updatedProject)
     } catch (error) {
