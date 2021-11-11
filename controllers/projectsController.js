@@ -52,7 +52,7 @@ export const deleteProject = async (req, res, next) => {
     try {
         const { id } = req.params;
         const deletedProject = await Project.findByIdAndDelete(id);
-        if (!deletedProject) throw new createError(404, `No Project with _id:${id} can be found.`);
+        if (!deletedProject) throw new createError(404, `No Job with _id:${id} can be found.`);
         res.json({ success: `Project ${deletedProject.title} with _id:${id} was deleted` });
     } catch (error) {
         next(error)
@@ -63,15 +63,6 @@ export const deleteProject = async (req, res, next) => {
 
 export const getOwnProjects = async (req, res, next) => {
     try {
-        // const ownedProjects = await Project.find({ owner: req.user._id })
-        // .sort('title')
-        // .populate('owner')
-        // .populate("jobList")
-        // .populate("participants");
-        console.log(req.ownedProjects);
-
-        // if (!ownedProjects) throw new createError(404, `No projects created`);
-        // if (ownedProjects.length === 0) throw new createError(404, `You don't have any projects`);
         res.json(req.ownedProjects);
     } catch (error) {
         next(error)
@@ -80,18 +71,15 @@ export const getOwnProjects = async (req, res, next) => {
 
 export const getOwnProject = async (req, res, next) => {
     try {
-        res.json(req.project)
+        
     } catch (error) {
-        next(error);
+        
     }
 }
 
 export const deleteOwnProject = async (req, res, next) => {
     try {
-        const id = req.project._id;
-        const deletedProject = await Project.findByIdAndDelete(id);
-        if(!deletedProject) throw new createError(404, `No Project with _id:${id} can be found.`);
-        res.json({ success: `Project: ${deletedProject.title} with _id:${id} was deleted` });
+        
     } catch (error) {
         next(error);
     }
@@ -99,15 +87,9 @@ export const deleteOwnProject = async (req, res, next) => {
 
 export const updateOwnProject = async (req, res, next) => {
     try {
-        const id = req.project._id;
+        const { id } = req.params;
         const newData = req.body;
-        const updatedProject = await Project.findByIdAndUpdate(
-            id, 
-            newData, 
-            { new: true })
-            .populate('owner')
-            .populate("jobList")
-            .populate("participants");;
+        const updatedProject = await Project.findByIdAndUpdate(id, newData, { new: true });
         if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);
         res.json(updatedProject);  
     } catch (error) {
