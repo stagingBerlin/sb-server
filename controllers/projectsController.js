@@ -151,16 +151,42 @@ export const updateOwnProject = async (req, res, next) => {
 // remove a complete jobSlot in the jobList array
 
 export const deleteJobSlot = async  (req, res, next) => {
-    const { jobListId } = req.params
-
+    const { jobListId, participantId } = req.params
     try {
-
         await Project.updateOne(
             {"jobList._id": jobListId}, 
             { $pull : { jobList : { _id: jobListId } } })
+
+            if(participantId){
+                const updated = await Project.findByIdAndUpdate(
+                    req.project._id,
+                    { $pull: { participants: participantId} },
+                    {new: true})
+                    .populate('owner')
+                    .populate({
+                        path: 'jobList', 
+                        populate: {
+                            path: 'job',
+                            select: '-_id'
+                        },
+                    })
+                    .populate("participants");
+                res.json(updated)
+            }
+            else{
+                const updated = await Project.findById(req.project._id)
+                .populate('owner')
+                .populate({
+                    path: 'jobList', 
+                    populate: {
+                        path: 'job',
+                        select: '-_id'
+                    },
+                })
+                .populate("participants");
+                res.json(updated)
+            }
             
-            const updated = await Project.findById(req.project._id)
-            res.json(updated)
     } catch (error) {
         next(error);
     }
@@ -168,7 +194,6 @@ export const deleteJobSlot = async  (req, res, next) => {
 
 
 // update job || description in jobSlot in the jobList array
-
 export const updateJobSlot = async (req, res, next) => {
     const { jobListId } = req.params
     const { jobId, description } = req.body
@@ -178,6 +203,15 @@ export const updateJobSlot = async (req, res, next) => {
             { $set : { jobList : { job: jobId, description: description } } })
 
             const updated = await Project.findById(req.project._id)
+            .populate('owner')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                },
+            })
+            .populate("participants");
             res.json(updated)
     } catch (error) {
         next(error);
@@ -194,8 +228,22 @@ export const addParticipant = async (req, res, next) => {
 
         const updated = await Project.findByIdAndUpdate(
             req.project._id,
-            { $push: { participants: participantId } },
+            { $push: { participants: participantId} },
             {new: true})
+            .populate('owner')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                },
+            })
+            .populate("participants");
+
+        // const updated = await Project.findByIdAndUpdate(
+        //     req.project._id,
+        //     { participants: []},
+        //     {new: true})
         res.json(updated);
     } catch (error) {
         next(error)
@@ -203,7 +251,7 @@ export const addParticipant = async (req, res, next) => {
 }
 
 export const removeParticipant = async (req, res, next) => {
-    const { jobListId } = req.params
+    const { jobListId, participantId } = req.params
     try {
         let findProject = await Project.findOne({"jobList._id": jobListId});
         findProject = findProject.toObject()
@@ -223,8 +271,20 @@ export const removeParticipant = async (req, res, next) => {
 
         const dbUpdated = await Project.findByIdAndUpdate(
             req.project._id, 
-            { $set : { jobList : updated } }, 
+            {
+                $set : { jobList : updated },
+                $pull: {participants: participantId} 
+            },
             { new: true } )
+            .populate('owner')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                },
+            })
+            .populate("participants");
 
         res.json(dbUpdated)
     } catch (error) {

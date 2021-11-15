@@ -3,7 +3,10 @@ import createError from 'http-errors';
 
 export const getUsers = async(req, res, next) => {
     try {
-        let users = await User.find().sort('lastName').select('-password');
+        let users = await User.find()
+        .populate("profession")
+        .populate("ownedProject")
+        .select('-password');
         res.json(users);
     } catch(error) {
         next(error);
@@ -13,7 +16,10 @@ export const getUsers = async(req, res, next) => {
 export const getUser = async(req, res, next)=> {
     const { id } = req.params;
     try {
-      const user = await User.findById(id).select('-password');
+      const user = await User.findById(id)
+      .populate("profession")
+      .populate("ownedProject")
+      .select('-password');
 
       if (!user) throw new createError(404, `No users found under ID: ${id}`);
 
