@@ -9,7 +9,11 @@ import {
     getOwnProjects,
     getOwnProject,
     updateOwnProject,
-    deleteOwnProject
+    deleteOwnProject,
+    deleteJobSlot,
+    updateJobSlot,
+    addParticipant,
+    removeParticipant
 } from '../controllers/projectsController.js';
 import auth from '../middlewares/authentication/auth.js'
 import isAdmin from '../middlewares/authentication/isAdmin.js'
@@ -32,6 +36,16 @@ router.route('/ownProjects/:id')
 .put(auth, isOwner, updateOwnProject)
 .delete(auth, isOwner, deleteOwnProject);
 
-// still missing a method to fullfield the job list when an owner creates or adds participants to the project
+
+router.route('/ownProjects/:id/jobList/:jobListId')
+.put(auth, isOwner, removeParticipant)
+.patch(auth, isOwner, updateJobSlot)
+.delete(auth, isOwner, deleteJobSlot)
+
+
+// this route will add a participant to the subObject in the array of jobList  ( params needed: project's id, objects's id in the jobList and participant' id)
+router.route('/ownProjects/:id/jobList/:jobListId/participant/:participantId')
+.put(auth, isOwner, addParticipant)
+
 
 export default router;

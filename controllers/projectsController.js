@@ -108,24 +108,126 @@ export const deleteOwnProject = async (req, res, next) => {
 
 export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
+    const newData = req.body
     try {
-        const newData = req.body
-        const updatedProject = await Project.findByIdAndUpdate(
-            id, 
-            newData, 
-            { new: true })
-            .populate('owner')
-            .populate({
-                path: 'jobList', 
-                populate: {
-                    path: 'job',
-                    select: '-_id'
-                },
-            });
-        if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
-        res.json(updatedProject)
+        if(newData.jobId) {
+            const addToJobList = await Project.findByIdAndUpdate(
+                id, 
+                { $push : { jobList: { job : newData.jobId, description: newData.description } } },
+                { new: true })
+                .populate('owner')
+                .populate({
+                    path: 'jobList', 
+                    populate: {
+                        path: 'job',
+                        select: '-_id'
+                    }
+                });
+
+            if(!addToJobList) throw new createError(404, `No project with id: ${id} was found.`);
+            res.json(addToJobList)
+        }
+        else {
+            const updatedProject = await Project.findByIdAndUpdate(
+                id, 
+                newData, 
+                { new: true })
+                .populate('owner')
+                .populate({
+                    path: 'jobList', 
+                    populate: {
+                        path: 'job',
+                        select: '-_id'
+                    },
+                });
+            if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
+            res.json(updatedProject)
+        }
     } catch (error) {
         next(error)
     }
 }
 
+// remove a complete jobSlot in the jobList array
+
+export const deleteJobSlot = async  (req, res, next) => {
+    const { jobListId } = req.params
+
+    try {
+
+        await Project.updateOne(
+            {"jobList._id": jobListId}, 
+            { $pull : { jobList : { _id: jobListId } } })
+            
+            const updated = await Project.findById(req.project._id)
+            res.json(updated)
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+// update job || description in jobSlot in the jobList array
+
+export const updateJobSlot = async (req, res, next) => {
+    const { jobListId } = req.params
+    const { jobId, description } = req.body
+    try {
+        await Project.updateOne(
+            {"jobList._id": jobListId}, 
+            { $set : { jobList : { job: jobId, description: description } } })
+
+            const updated = await Project.findById(req.project._id)
+            res.json(updated)
+    } catch (error) {
+        next(error);
+    }
+}
+
+// controller to add a participant to the subObject in the array of jobList 
+export const addParticipant = async (req, res, next) => {
+    const { jobListId, participantId } = req.params
+    try {
+        await Project.updateOne(
+            {"jobList._id": jobListId}, 
+            { $set : { "jobList.$.participant" : participantId } })
+
+        const updated = await Project.findByIdAndUpdate(
+            req.project._id,
+            { $push: { participants: participantId } },
+            {new: true})
+        res.json(updated);
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const removeParticipant = async (req, res, next) => {
+    const { jobListId } = req.params
+    try {
+        let findProject = await Project.findOne({"jobList._id": jobListId});
+        findProject = findProject.toObject()
+                    
+        const filtered = findProject.jobList.find(item => 
+            item._id.toString() === jobListId);
+
+        if(!filtered.hasOwnProperty('participant') ) throw new createError(404, `No participant for this job`);
+        
+        delete filtered.participant
+        
+        const updated = findProject.jobList.map(item => 
+            item._id.toString() === filtered._id.toString() ?
+            filtered
+            :
+            item)
+
+        const dbUpdated = await Project.findByIdAndUpdate(
+            req.project._id, 
+            { $set : { jobList : updated } }, 
+            { new: true } )
+
+        res.json(dbUpdated)
+    } catch (error) {
+        next(error);
+    }
+}
