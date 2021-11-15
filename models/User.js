@@ -9,7 +9,7 @@ const portfolioSchema = new Schema(
   {
     name: { type: String, required: false },
     job: { type: String, required: false },
-    //images: [{type: String}],
+    images: [{type: String}],
     description: { type: String, required: false },
   },
   { _id: false }
@@ -61,37 +61,27 @@ const UserSchema = new Schema(
     ],
     bookmark: [
       {
-        projectTitle: {
-          type: Schema.Types.ObjectId,
-          ref: "Project",
-          required: false,
-        },
-        quantity: {
-          type: Number,
-          required: false,
-        },
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+        required: false,
         _id: false,
       },
     ],
     joinedProject: [
       {
-        projectTitle: {
-          type: Schema.Types.ObjectId,
-          ref: "Project",
-          required: false,
-        },
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+        required: false,
         _id: false,
-      },
+      }
     ],
     appliedProject: [
       {
-        projectTitle: {
-          type: Schema.Types.ObjectId,
-          ref: "Project",
-          required: false,
-        },
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+        required: false,
         _id: false,
-      },
+      }
     ],
     ownedProject: [
       {
@@ -107,6 +97,22 @@ const UserSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false,
+        _id: false
+      },
+    ],
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false,
+        _id: false
+      },
+    ]
   },
   {
     versionKey: false,

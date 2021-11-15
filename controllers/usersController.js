@@ -45,7 +45,6 @@ export const updateUser = async(req, res, next)=> {
       .populate("profession")
       .populate("ownedProject")
       .select("-password")
-      console.log(newUser);
       if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
       res.json(newUser);
