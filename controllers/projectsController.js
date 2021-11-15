@@ -98,6 +98,10 @@ export const getOwnProject = async (req, res, next) => {
 export const deleteOwnProject = async (req, res, next) => {
     const id = req.project._id;
     try {
+        await User.findByIdAndUpdate(
+            req.user._id, 
+            { $pull: { ownedProject: id } })
+            
         const deletedProject = await Project.findByIdAndDelete(id);
         if(!deletedProject) throw new createError(404, `No Project with _id:${id} can be found.`);
         res.json({ success: `Project: ${deletedProject.title} with _id:${id} was deleted` });   
@@ -130,7 +134,10 @@ export const updateOwnProject = async (req, res, next) => {
         else {
             const updatedProject = await Project.findByIdAndUpdate(
                 id, 
-                newData, 
+                {
+                    ...newData, 
+                    $push: { images: req.cloudProjectUrl}
+                }, 
                 { new: true })
                 .populate('owner')
                 .populate({

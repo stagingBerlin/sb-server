@@ -32,14 +32,15 @@ import faker from 'faker'
         isHiring: faker.random.arrayElement(booleans),
         profession: [  
             faker.random.arrayElement(jobsIds)
-            ]
+            ],
+
         
         };
         console.log(
             `User ${userData.name} with email ${userData.email} has been created`
         );
         const user = new User(userData);
-        return user.save();
+        return user.save()
     });
 
     let users;

@@ -18,6 +18,7 @@ import {
 import auth from '../middlewares/authentication/auth.js'
 import isAdmin from '../middlewares/authentication/isAdmin.js'
 import isOwner from '../middlewares/projectMiddlewares/isOwner.js'
+import uploadProjectImage from '../middlewares/uploadProjectImage.js'
 
 router.route('/')
 .get(auth, getAllProjects)
@@ -33,7 +34,7 @@ router.route('/:id')
 // route to access to the detailes of each owned Project, update and delete also posible just by the owner.
 router.route('/ownProjects/:id')
 .get(auth, isOwner, getOwnProject)
-.put(auth, isOwner, updateOwnProject)
+.put(auth, isOwner, uploadProjectImage,updateOwnProject)
 .delete(auth, isOwner, deleteOwnProject);
 
 
