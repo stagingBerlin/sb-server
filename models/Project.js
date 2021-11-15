@@ -40,8 +40,7 @@ const ProjectSchema = new Schema({
                 type: Schema.Types.ObjectId, 
                 ref: 'User',
                 _id: false
-            },
-            _id: false
+            }
         }
     ],
     starting:{
