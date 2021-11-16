@@ -114,10 +114,10 @@ export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
     const newData = req.body
     try {
-        if(newData.jobId) {
+        if(newData.job) {
             const addToJobList = await Project.findByIdAndUpdate(
                 id, 
-                { $push : { jobList: { job : newData.jobId, description: newData.description } } },
+                { $push : { jobList: { job : newData.job, description: newData.description } } },
                 { new: true })
                 .populate('owner')
                 .populate({
@@ -203,11 +203,11 @@ export const deleteJobSlot = async  (req, res, next) => {
 // update job || description in jobSlot in the jobList array
 export const updateJobSlot = async (req, res, next) => {
     const { jobListId } = req.params
-    const { jobId, description } = req.body
+    const { job, description } = req.body
     try {
         await Project.updateOne(
             {"jobList._id": jobListId}, 
-            { $set : { jobList : { job: jobId, description: description } } })
+            { $set : { "jobList.$.job": job, "jobList.$.description": description } })
 
             const updated = await Project.findById(req.project._id)
             .populate('owner')
