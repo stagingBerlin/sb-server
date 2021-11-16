@@ -40,15 +40,13 @@ router.route('/ownProjects/:id')
 
 router.route('/ownProjects/:id/jobList/:jobListId')
 .put(auth, isOwner, updateJobSlot)
+.delete(auth, isOwner, deleteJobSlot)
 
 
 
 // this route will add a participant to the subObject in the array of jobList  ( params needed: project's id, objects's id in the jobList and participant' id)
 router.route('/ownProjects/:id/jobList/:jobListId/participant/:participantId')
 .put(auth, isOwner, addParticipant)
-.delete(auth, isOwner, deleteJobSlot)
-.patch(auth, isOwner, removeParticipant)
-
-
+.delete(auth, isOwner, removeParticipant)
 
 export default router;
