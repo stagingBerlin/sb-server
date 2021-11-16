@@ -115,14 +115,14 @@ export const updateOwnProject = async (req, res, next) => {
                 id, 
                 { $push : { jobList: { job : newData.jobId, description: newData.description } } },
                 { new: true })
-                .populate('owner')
-                .populate({
-                    path: 'jobList', 
-                    populate: {
-                        path: 'job',
-                        select: '-_id'
-                    }
-                });
+                // .populate('owner')
+                // .populate({
+                //     path: 'jobList', 
+                //     populate: {
+                //         path: 'job',
+                //         select: '-_id'
+                //     }
+                // });
 
             if(!addToJobList) throw new createError(404, `No project with id: ${id} was found.`);
             res.json(addToJobList)
