@@ -17,7 +17,7 @@ const isOwner = async (req, res, next) => {
                     select: '-_id'
                 },
             })
-            .populate("participants");
+           .populate("participants");
             if (!ownedProjects) throw new createError(404, `No projects found for this user`);
             if (ownedProjects.length === 0) throw new createError(404, `You don't have any projects`);
             
@@ -34,7 +34,7 @@ const isOwner = async (req, res, next) => {
                     select: '-_id'
                 },
             })
-            .populate("participants");
+           .populate("participants");
             
             if(!projectdb) next(createError(404, `the requested project was not found`));
             

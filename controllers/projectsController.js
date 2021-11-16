@@ -40,7 +40,7 @@ export const getProject = async (req, res, next) => {
 
 export const createProject = async (req, res, next) => {
     try {
-        const body = req.body;
+        const body = req.body.data;
         const data = { ...body, owner: req.user._id }
         const createdProject = await Project.create(data);
         
