@@ -20,11 +20,13 @@ import faker from 'faker'
     const jobsIds = allJobs.map(job => job._id)
 
     const booleans = [ false, true ]
+    let ids = []
 
     const userPromises = Array(20)
     .fill(null)
     .map(() => {
       const userData = {
+        avatar: faker.image.people(),
         name: faker.name.firstName(),
         email: faker.internet.email(),
         password: 'Abcd1234!',
@@ -40,7 +42,16 @@ import faker from 'faker'
             `User ${userData.name} with email ${userData.email} has been created`
         );
         const user = new User(userData);
+        // user ids in array of followers and following
         return user.save()
+        // .then(item => {
+        //     ids.push(item._id)
+        //     const randomId = faker.random.arrayElement(ids, 5)    
+        //     return User.findByIdAndUpdate(
+        //         item._id,
+        //         {$push: {following: randomId}},
+        //         {new: true}) 
+        // })
     });
 
     let users;
@@ -59,6 +70,7 @@ import faker from 'faker'
         const randomUser = faker.random.arrayElement(users)
         const jobs = faker.random.arrayElements(jobsIds, 2)
         const projectData = {
+            images: [faker.image.nightlife(), faker.image.nightlife(), faker.image.nightlife()],
           title: faker.animal.cetacean(),
           description: faker.lorem.paragraphs(),
           owner: randomUser,
