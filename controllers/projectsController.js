@@ -114,6 +114,7 @@ export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
     const newData = req.body
     try {
+        
         if(newData.job) {
             const addToJobList = await Project.findByIdAndUpdate(
                 id, 
