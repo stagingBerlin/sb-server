@@ -3,7 +3,7 @@ import Job from '../models/Job.js'
 
 export const getAllJobs = async (req, res, next) => {
     try {
-        const allJobs = await Job.find()
+        const allJobs = await Job.find().sort({title: 1})
         res.send(allJobs)
     } catch (error) {
         next(error)
