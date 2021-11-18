@@ -40,7 +40,7 @@ Body:
 ```bash
 {
     job: "id of job in Data Base",
-    description: "Description of the required job"
+    jobDescription: "Description of the required job"
 }
 ```
 

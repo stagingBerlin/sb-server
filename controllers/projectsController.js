@@ -114,11 +114,14 @@ export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
     const newData = req.body
     try {
-        
-        if(newData.job) {
+        if(newData.job || newData.jobDescription) {
+            if(newData.job === "" || newData.jobDescription === ""){
+                throw new createError(404, `Add a Job and a job Description`);
+            } 
+                
             const addToJobList = await Project.findByIdAndUpdate(
                 id, 
-                { $push : { jobList: { job : newData.job, description: newData.description } } },
+                { $push : { jobList: { job : newData.job, jobDescription: newData.jobDescription } } },
                 { new: true })
                 .populate('owner')
                 .populate({
