@@ -21,7 +21,7 @@ import isOwner from '../middlewares/projectMiddlewares/isOwner.js'
 import uploadProjectImage from '../middlewares/uploadProjectImage.js'
 
 router.route('/')
-.get(auth, getAllProjects)
+.get(getAllProjects)
 .post(auth, createProject);
 
 router.route('/ownProjects')
