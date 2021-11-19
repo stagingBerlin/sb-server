@@ -10,6 +10,8 @@ import {
     getOwnProject,
     updateOwnProject,
     deleteOwnProject,
+    getJobList,
+    addJob,
     deleteJobSlot,
     updateJobSlot,
     addParticipant,
@@ -19,10 +21,11 @@ import auth from '../middlewares/authentication/auth.js'
 import isAdmin from '../middlewares/authentication/isAdmin.js'
 import isOwner from '../middlewares/projectMiddlewares/isOwner.js'
 import uploadProjectImage from '../middlewares/uploadProjectImage.js'
+import { findDuplicateProject } from '../middlewares/projectMiddlewares/projectValidation.js'
 
 router.route('/')
 .get(getAllProjects)
-.post(auth, createProject);
+.post(auth, findDuplicateProject, createProject);
 
 router.route('/ownProjects')
 .get(auth, isOwner, getOwnProjects);
@@ -34,14 +37,18 @@ router.route('/:id')
 // route to access to the detailes of each owned Project, update and delete also posible just by the owner.
 router.route('/ownProjects/:id')
 .get(auth, isOwner, getOwnProject)
-.put(auth, isOwner, uploadProjectImage,updateOwnProject)
+.put(auth, isOwner, uploadProjectImage, updateOwnProject)
 .delete(auth, isOwner, deleteOwnProject);
+
+
+router.route('/ownProjects/:id/jobList')
+.get(auth, isOwner, getJobList)
+.post(auth, isOwner, addJob)
 
 
 router.route('/ownProjects/:id/jobList/:jobListId')
 .put(auth, isOwner, updateJobSlot)
 .delete(auth, isOwner, deleteJobSlot)
-
 
 
 // this route will add a participant to the subObject in the array of jobList  ( params needed: project's id, objects's id in the jobList and participant' id)

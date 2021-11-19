@@ -41,6 +41,11 @@ export const getProject = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
         const body = req.body;
+        console.log(body);
+        if(!body.title ) throw new createError(404, `Add a title`);
+        if(!body.authorship ) throw new createError(404, `Add an authorship`);
+        if(!body.description) throw new createError(404, `Add a description to this Job`);
+
         const data = { ...body, owner: req.user._id }
         const createdProject = await Project.create(data);
         
@@ -114,46 +119,66 @@ export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
     const newData = req.body
     try {
-        if(newData.job || newData.jobDescription) {
-            if(newData.job === "" || newData.jobDescription === ""){
-                throw new createError(404, `Add a Job and a job Description`);
-            } 
-                
-            const addToJobList = await Project.findByIdAndUpdate(
-                id, 
-                { $push : { jobList: { job : newData.job, jobDescription: newData.jobDescription } } },
-                { new: true })
-                .populate('owner')
-                .populate({
-                    path: 'jobList', 
-                    populate: {
-                        path: 'job',
-                        select: '-_id'
-                    }
-                });
+        const updatedProject = await Project.findByIdAndUpdate(
+            id, 
+            {
+                ...newData, 
+                $push: { images: req.cloudProjectUrl}
+            }, 
+            { new: true })
+            .populate('owner')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                },
+            });
 
-            if(!addToJobList) throw new createError(404, `No project with id: ${id} was found.`);
-            res.json(addToJobList)
-        }
-        else {
-            const updatedProject = await Project.findByIdAndUpdate(
-                id, 
-                {
-                    ...newData, 
-                    $push: { images: req.cloudProjectUrl}
-                }, 
-                { new: true })
-                .populate('owner')
-                .populate({
-                    path: 'jobList', 
-                    populate: {
-                        path: 'job',
-                        select: '-_id'
-                    },
-                });
             if (!updatedProject) throw new createError(404, `No project with id:${id} can be found.`);  
             res.json(updatedProject)
-        }
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
+// get job list of an especific projectToUpadte
+export const getJobList = async  (req, res, next) => {
+    const id = req.project._id;
+    try {
+        const jobList = req.project.jobList 
+        if(jobList.length === 0) throw new createError(404, `This project is not offering jobs`);
+        res.json(jobList)
+        
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const addJob = async (req, res, next) => {
+    const id = req.project._id;
+    const newData = req.body
+    try {
+        if(newData.job === "" || !newData.job) throw new createError(404, `Add a Job`);
+        if(newData.jobDescription === "" || !newData.jobDescription) throw new createError(404, `Add a job Description`);
+        
+        const addToJobList = await Project.findByIdAndUpdate(
+            id, 
+            { $push : { jobList: newData } },
+            { new: true })
+            .populate('owner')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'job',
+                    select: '-_id'
+                }
+            });
+
+        if(!addToJobList) throw new createError(404, `No project with id: ${id} was found.`);
+        res.json(addToJobList)
+        
     } catch (error) {
         next(error)
     }
