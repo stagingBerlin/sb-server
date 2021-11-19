@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator';
 import createError from 'http-errors';
+import User from '../../models/User.js'
 
 /** User Vali  and  Sani rules*/
 export const signupRules = () => {
@@ -60,5 +61,16 @@ export const generateUsername = (req, res, next) => {
     next()
   } catch (error) {
     next(error);
+  }
+}
+
+export const findCopyEmail = async (req, res, next) => {
+  try {
+    const users = await User.find()
+    const emailExist = users.find(item => item.email === req.body.email)
+    if(emailExist) throw(createError(401, `Sign Up failed-Email taken!!`))
+    else next()
+  } catch (error) {
+    next(error)
   }
 }
