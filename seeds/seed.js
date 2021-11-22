@@ -66,9 +66,9 @@ import faker from "faker";
       const jobs = faker.random.arrayElements(jobsIds, 3);
       const projectData = {
         images: [
-          faker.image.nightlife(),
-          faker.image.nightlife(),
-          faker.image.nightlife(),
+            `${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
+            `${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
+            `${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
         ],
         title: faker.animal.insect(),
         description: faker.lorem.paragraphs(),

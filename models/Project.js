@@ -66,7 +66,7 @@ const ProjectSchema = new Schema({
         }
     ]
 },{
-    versionKey: false
+    versionKey: false, timestamps: true
 }) 
 
 const Project = model('Project', ProjectSchema);
