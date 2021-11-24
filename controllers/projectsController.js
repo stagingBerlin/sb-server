@@ -41,7 +41,6 @@ export const getProject = async (req, res, next) => {
 export const createProject = async (req, res, next) => {
     try {
         const body = req.body;
-        console.log(body);
         if(!body.title ) throw new createError(404, `Add a title`);
         if(!body.authorship ) throw new createError(404, `Add an authorship`);
         if(!body.description) throw new createError(404, `Add a description to this Job`);
