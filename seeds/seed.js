@@ -70,7 +70,7 @@ import faker from "faker";
             `${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
             `${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
         ],
-        title: faker.animal.insect(),
+        title: `${faker.name.firstName()} ${faker.animal.insect()}`,
         description: faker.lorem.paragraphs(),
         owner: randomUser,
         authorship: faker.name.firstName(),
