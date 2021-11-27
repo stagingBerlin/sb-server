@@ -10,12 +10,12 @@ const isOwner = async (req, res, next) => {
             const ownedProjects = await Project.find({ owner: req.user._id })
             .sort('title')
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
-                    path: 'job',
-                    select: '-_id'
-                },
+                    path: 'job'
+                }
             })
            .populate("participants");
             if (!ownedProjects) throw new createError(404, `No projects found for this user`);
@@ -27,12 +27,12 @@ const isOwner = async (req, res, next) => {
         else {  // else, the object params contains the id of the requested project
             const projectdb = await Project.findById(id)
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
-                    select: '-_id'
-                },
+                }
             })
            .populate("participants");
             
