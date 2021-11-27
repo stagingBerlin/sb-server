@@ -170,8 +170,7 @@ export const addJob = async (req, res, next) => {
             .populate({
                 path: 'jobList', 
                 populate: {
-                    path: 'job',
-                    select: '-_id'
+                    path: 'job'
                 }
             });
 
@@ -227,19 +226,18 @@ export const deleteJobSlot = async  (req, res, next) => {
 // update job || description in jobSlot in the jobList array
 export const updateJobSlot = async (req, res, next) => {
     const { jobListId } = req.params
-    const { job, description } = req.body
+    const { job, jobDescription } = req.body
     try {
         await Project.updateOne(
             {"jobList._id": jobListId}, 
-            { $set : { "jobList.$.job": job, "jobList.$.description": description } })
+            { $set : { "jobList.$.job": job, "jobList.$.jobDescription": jobDescription } })
 
             const updated = await Project.findById(req.project._id)
             .populate('owner')
             .populate({
                 path: 'jobList', 
                 populate: {
-                    path: 'job',
-                    select: '-_id'
+                    path: 'job'
                 },
             })
             .populate("participants");

@@ -25,7 +25,7 @@ import faker from "faker";
     .fill(null)
     .map(() => {
       const userData = {
-        avatar: faker.image.people(),
+        avatar:`${faker.image.people(400,400)}?random=${Math.round(Math.random() * 1000)}`,
         name: faker.name.firstName(),
         email: faker.internet.email(),
         password: "Abcd1234!",
@@ -76,7 +76,11 @@ import faker from "faker";
         authorship: faker.name.firstName(),
         deadline: faker.date.between("2021-12-01", "2022-01-31"),
         starting: faker.date.between("2022-01-31", "2022-03-31"),
-        jobList: [{ job: jobs[0] }, { job: jobs[1] }, { job: jobs[2] }]
+        jobList: [
+          { job: jobs[0], jobDescription: faker.lorem.paragraphs()}, 
+          { job: jobs[1], jobDescription: faker.lorem.paragraphs()}, 
+          { job: jobs[2], jobDescription: faker.lorem.paragraphs()}
+        ]
       };
 
       console.log(
