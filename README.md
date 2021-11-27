@@ -32,7 +32,7 @@ Method: PUT,<br />
 Route:
 
 ```bash
-'/projects/ownProjects/:id'
+'/projects/ownProjects/:id/jobList'
 ```
 
 Body:
@@ -64,7 +64,7 @@ Body:
 
 ```bash
 {
-    description: "...other description"
+    jobDescription: "...other description"
 }
 ```
 
