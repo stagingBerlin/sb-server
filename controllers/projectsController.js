@@ -6,11 +6,11 @@ export const getAllProjects = async (req, res, next) => {
     try {
         const allProjects = await Project.find().sort('title')
         .populate('owner')
+        .populate('jobList.participant')
         .populate({
             path: 'jobList', 
             populate: {
                 path: 'job',
-                select: '-_id'
             },
         });
         res.json(allProjects)
@@ -24,11 +24,11 @@ export const getProject = async (req, res, next) => {
     try {
         const project = await Project.findById(id)
         .populate('owner')
+        .populate('jobList.participant')
         .populate({
             path: 'jobList', 
             populate: {
                 path: 'job',
-                select: '-_id'
             },
         });
         if(!project) throw new createError(404, `No project with id: ${id} was found.`);
@@ -56,11 +56,11 @@ export const createProject = async (req, res, next) => {
 
         const populatedProject = await Project.findById(createdProject._id)
         .populate('owner')
+        .populate('jobList.participant')
         .populate({
             path: 'jobList', 
             populate: {
                 path: 'job',
-                select: '-_id'
             },
         });
 
@@ -126,11 +126,11 @@ export const updateOwnProject = async (req, res, next) => {
             }, 
             { new: true })
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
-                    select: '-_id'
                 },
             });
 
@@ -167,10 +167,11 @@ export const addJob = async (req, res, next) => {
             { $push : { jobList: newData } },
             { new: true })
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
-                    path: 'job'
+                    path: 'job',
                 }
             });
 
@@ -206,11 +207,11 @@ export const deleteJobSlot = async  (req, res, next) => {
             { $pull: { participants: participantId} },
             {new: true})
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
-                    select: '-_id'
                 },
             })
             .populate("participants");
@@ -234,6 +235,7 @@ export const updateJobSlot = async (req, res, next) => {
 
             const updated = await Project.findById(req.project._id)
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
@@ -251,6 +253,7 @@ export const updateJobSlot = async (req, res, next) => {
 export const addParticipant = async (req, res, next) => {
     const { jobListId, participantId } = req.params
     try {
+        console.log(participantId);
         await Project.updateOne(
             {"jobList._id": jobListId}, 
             { $set : { "jobList.$.participant" : participantId } })
@@ -260,11 +263,11 @@ export const addParticipant = async (req, res, next) => {
             { $push: { participants: participantId} },
             {new: true})
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
-                    select: '-_id'
                 },
             })
             .populate("participants");
@@ -306,11 +309,11 @@ export const removeParticipant = async (req, res, next) => {
             },
             { new: true } )
             .populate('owner')
+            .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
                 populate: {
-                    path: 'job',
-                    select: '-_id'
+                    path: 'job'
                 },
             })
             .populate("participants");
