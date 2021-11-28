@@ -10,14 +10,22 @@ const isOwner = async (req, res, next) => {
             const ownedProjects = await Project.find({ owner: req.user._id })
             .sort('title')
             .populate('owner')
-            .populate('jobList.participant')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'participant',
+                    populate:{
+                        path: "profession"
+                    }
+                },
+            })
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job'
                 }
             })
-           .populate("participants");
+        //    .populate("participants");
             if (!ownedProjects) throw new createError(404, `No projects found for this user`);
             if (ownedProjects.length === 0) throw new createError(404, `You don't have any projects`);
             
@@ -27,14 +35,22 @@ const isOwner = async (req, res, next) => {
         else {  // else, the object params contains the id of the requested project
             const projectdb = await Project.findById(id)
             .populate('owner')
-            .populate('jobList.participant')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'participant',
+                    populate:{
+                        path: "profession"
+                    }
+                },
+            })
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
                 }
             })
-           .populate("participants");
+        //    .populate("participants");
             
             if(!projectdb) next(createError(404, `the requested project was not found`));
             

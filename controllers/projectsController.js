@@ -126,7 +126,15 @@ export const updateOwnProject = async (req, res, next) => {
             }, 
             { new: true })
             .populate('owner')
-            .populate('jobList.participant')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'participant',
+                    populate:{
+                        path: "profession"
+                    }
+                },
+            })
             .populate({
                 path: 'jobList', 
                 populate: {
@@ -235,7 +243,15 @@ export const updateJobSlot = async (req, res, next) => {
 
             const updated = await Project.findById(req.project._id)
             .populate('owner')
-            .populate('jobList.participant')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'participant',
+                    populate:{
+                        path: "profession"
+                    }
+                },
+            })
             .populate({
                 path: 'jobList', 
                 populate: {
@@ -263,14 +279,22 @@ export const addParticipant = async (req, res, next) => {
             { $push: { participants: participantId} },
             {new: true})
             .populate('owner')
-            .populate('jobList.participant')
+            .populate({
+                path: 'jobList', 
+                populate: {
+                    path: 'participant',
+                    populate:{
+                        path: "profession"
+                    }
+                },
+            })
             .populate({
                 path: 'jobList', 
                 populate: {
                     path: 'job',
                 },
             })
-            .populate("participants");
+            // .populate("participants");
 
         // const updated = await Project.findByIdAndUpdate(
         //     req.project._id,
@@ -309,6 +333,7 @@ export const removeParticipant = async (req, res, next) => {
             },
             { new: true } )
             .populate('owner')
+            .populate('profession')
             .populate('jobList.participant')
             .populate({
                 path: 'jobList', 
