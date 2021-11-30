@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const NotificationSchema = new Schema({
+    projectId: {type: Schema.Types.ObjectId,  ref: "Project"}, 
     fromUser: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
@@ -14,14 +15,19 @@ const NotificationSchema = new Schema({
     },
     typeOfNoti:{
         type: String,
-        enum: [ 'Job Application', 'Message' ]
+        enum: [ 'Job Application', 'Message' ],
+        default: 'Job Application'
     },
     status: { 
         type: String, 
         enum: ['pending', 'accepted', 'rejected'], 
         default: 'pending' 
     },
-    read: { 
+    readInitiator: { 
+        type: Boolean, 
+        default: false 
+    },
+    readReceiver: { 
         type: Boolean, 
         default: false 
     },
@@ -29,7 +35,11 @@ const NotificationSchema = new Schema({
         type: String, 
         required: false, 
     },
-    message: { 
+    initialMessage: { 
+        type: String, 
+        required: false, 
+    },
+    replyMessage: { 
         type: String, 
         required: false, 
     }

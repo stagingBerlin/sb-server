@@ -6,6 +6,7 @@ export const getUsers = async(req, res, next) => {
         let users = await User.find()
         .populate("profession")
         .populate("ownedProject")
+        .populate("appliedProject")
         .select('-password');
         res.json(users);
     } catch(error) {
@@ -19,6 +20,7 @@ export const getUser = async(req, res, next)=> {
       const user = await User.findById(id)
       .populate("profession")
       .populate("ownedProject")
+      .populate("appliedProject")
       .select('-password');
 
       if (!user) throw new createError(404, `No users found under ID: ${id}`);
@@ -44,6 +46,7 @@ export const updateUser = async(req, res, next)=> {
         { new: true })
       .populate("profession")
       .populate("ownedProject")
+      .populate("appliedProject")
       .select("-password")
       if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
