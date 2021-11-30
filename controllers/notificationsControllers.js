@@ -23,6 +23,7 @@ export const getUserNotifications = async (req, res, next) => {
     try {
         const userNotifications = await Notification.find(
             { $or: [ { fromUser: req.user._id }, { toUser: req.user._id } ] } )
+            .populate('projectId')
             .populate('fromUser')
             .populate('toUser')
 
