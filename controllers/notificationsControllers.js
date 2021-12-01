@@ -4,16 +4,20 @@ import User from '../models/User.js'
 
 export const createNotification = async (req, res, next) => {
     const { projectId } = req.body
+    
     try {
         const data = { ...req.body, fromUser: req.user._id }
         const notification = await Notification.create(data)
-        
-        await User.findByIdAndUpdate(
+        const user = await User.findByIdAndUpdate(
             req.user._id, 
             { $push: { appliedProject: projectId } }, 
             { new: true })
+            .populate("profession")
+            .populate("ownedProject")
+            .populate("appliedProject")
+            .select("-password")
 
-        res.json(notification)
+        res.json(user)
     } catch (error) {
         next(error);
     }
