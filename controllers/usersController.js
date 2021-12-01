@@ -1,118 +1,149 @@
-import User from '../models/User.js';
-import createError from 'http-errors';
+import User from "../models/User.js";
+import createError from "http-errors";
 
-export const getUsers = async(req, res, next) => {
-    try {
-        let users = await User.find()
-        .populate("profession")
-        .populate("ownedProject")
-        .populate("appliedProject")
-        .select('-password');
-        res.json(users);
-    } catch(error) {
-        next(error);
-    }
-}
-
-export const getUser = async(req, res, next)=> {
-    const { id } = req.params;
-    try {
-      const user = await User.findById(id)
+export const getUsers = async (req, res, next) => {
+  try {
+    let users = await User.find()
       .populate("profession")
       .populate("ownedProject")
       .populate("appliedProject")
-      .select('-password');
+      .populate("bookmark")
+      .select("-password");
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
 
-      if (!user) throw new createError(404, `No users found under ID: ${id}`);
+export const getUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id)
+      .populate("profession")
+      .populate("ownedProject")
+      .populate("appliedProject")
+      .populate("bookmark")
+      .select("-password");
 
-      res.json(user);
-    } 
-    catch(error) {
-        next(error);
-    }
-}
+    if (!user) throw new createError(404, `No users found under ID: ${id}`);
 
-export const updateUser = async(req, res, next)=> {
-    const { id } = req.params;
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
 
-    try {
-      // let user = await User.findById(id);
-     
-      //* depending on google user or not
+export const bookmarkProject = async (req, res, next) => {
+  const { projectId } = req.body;
+  try {
+    console.log(req.user)
+    const data = { ...req.body, ofUser: req.user._id };
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $push: { bookmark: projectId } },
+      { new: true }
+    )
+      .populate("profession")
+      .populate("ownedProject")
+      .populate("appliedProject")
+      .populate("bookmark")
+      .select("-password");
       
-      let newUser = await User.findByIdAndUpdate(
-        id, 
-        {...req.body, avatar: req.cloudFileUrl}, 
-        { new: true })
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    // let user = await User.findById(id);
+
+    //* depending on google user or not
+
+    let newUser = await User.findByIdAndUpdate(
+      id,
+      { ...req.body, avatar: req.cloudFileUrl },
+      { new: true }
+    )
       .populate("profession")
       .populate("ownedProject")
       .populate("appliedProject")
-      .select("-password")
-      if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
+      .populate("bookmark")
+      .select("-password");
+    if (!newUser) throw new createError(404, `No users found under ID: ${id}`);
 
-      res.json(newUser);
-        
-    } catch(error) {
-        next(error);
-    }
-}
+    res.json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const delUser = async(req, res, next)=> {
-    try {
-        const { id } = req.params;
-        const user = await User.findByIdAndDelete(id);
+export const delUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
 
-        if (!user) 
-        throw new createError(404, `No users found under ID: ${id}`);
+    if (!user) throw new createError(404, `No users found under ID: ${id}`);
 
-        res.json({done: `ID ${id}'s been deleted`})
-
-    } catch(error) {
-        next(error);
-    }
-}
+    res.json({ done: `ID ${id}'s been deleted` });
+  } catch (error) {
+    next(error);
+  }
+};
 
 //*************************** HANDLE LATER *****************************//
 
-export const verifyEmail = async(req, res, next) => {
-  console.log(req.user)
+export const verifyEmail = async (req, res, next) => {
+  console.log(req.user);
   try {
     let user = await User.findById(req.user._id);
-  
-    Object.assign(user, {verified: {status: true, token: user.verified.token}})
-    const userUpdated = await user.save()
-    let newUser = await User.findById(userUpdated._id).populate('cart.record')
-    if (!newUser) throw new createError(404, `no user found`)
+
+    Object.assign(user, {
+      verified: { status: true, token: user.verified.token },
+    });
+    const userUpdated = await user.save();
+    let newUser = await User.findById(userUpdated._id).populate("cart.record");
+    if (!newUser) throw new createError(404, `no user found`);
     res.send(newUser);
-  } catch(error) {
+  } catch (error) {
     next(error);
   }
-  
-}
+};
 
 export const signUpGoogleUser = async (req, res, next) => {
-    const { email, googleId, firstName, lastName } = req.body;
-    try {
-      let user = await User.findOne({email});
-      if (!user) {
-        let newUser = await User.findOneAndUpdate(
-          { email }, 
-          { googleId, email, firstName, lastName, username: email, verified: { status: true }},
-          { upsert: true,  new: true });
-        
-          if (!newUser) throw new createError(404, `unable to add a new user`);
-      }
-      const token  = user.generateAuthToken();
+  const { email, googleId, firstName, lastName } = req.body;
+  try {
+    let user = await User.findOne({ email });
+    if (!user) {
+      let newUser = await User.findOneAndUpdate(
+        { email },
+        {
+          googleId,
+          email,
+          firstName,
+          lastName,
+          username: email,
+          verified: { status: true },
+        },
+        { upsert: true, new: true }
+      );
 
-      res.cookie(
-          'token', token, {
-          expires: new Date(Date.now() + 172800000),
-          sameSite: 'lax',
-          secure: false,  //http on localhost, https on production,
-          httpOnly: true,
-        })
-        .send(user);
-    } catch(error) {
-      next(error)
+      if (!newUser) throw new createError(404, `unable to add a new user`);
     }
-}
+    const token = user.generateAuthToken();
+
+    res
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 172800000),
+        sameSite: "lax",
+        secure: false, //http on localhost, https on production,
+        httpOnly: true,
+      })
+      .send(user);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -15,6 +15,7 @@ export const createNotification = async (req, res, next) => {
             .populate("profession")
             .populate("ownedProject")
             .populate("appliedProject")
+            .populate("bookmark")
             .select("-password")
 
         res.json(user)
