@@ -269,7 +269,6 @@ export const updateJobSlot = async (req, res, next) => {
 export const addParticipant = async (req, res, next) => {
     const { jobListId, participantId } = req.params
     try {
-        console.log(participantId);
         await Project.updateOne(
             {"jobList._id": jobListId}, 
             { $set : { "jobList.$.participant" : participantId } })
