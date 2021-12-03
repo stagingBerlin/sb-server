@@ -47,6 +47,9 @@ export const updateNotification = async (req, res, next) => {
             body.readInitiator = false
         }
         const updated = await Notification.findByIdAndUpdate(id, body, {new: true})
+            .populate('projectId')
+            .populate('fromUser')
+            .populate('toUser');
 
         res.json(updated)
     } catch (error) {
