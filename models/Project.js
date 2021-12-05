@@ -2,12 +2,7 @@ import mongoose from 'mongoose';
 const {Schema, model} = mongoose;
 
 const ProjectSchema = new Schema({
-    images:[ 
-        {
-            type: String,
-            required: false
-        }
-    ],
+    images: [{type: String}],
     title: {
         type: String,
         required: true,
