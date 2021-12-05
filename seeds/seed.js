@@ -3,12 +3,14 @@ import "../configs/mongo-connect.js";
 import Job from "../models/Job.js";
 import User from "../models/User.js";
 import Project from "../models/Project.js";
+import Notification from "../models/Notification.js";
 import faker from "faker";
 
 (async function () {
   try {
     await User.deleteMany({});
     await Project.deleteMany({});
+    await Notification.deleteMany({});
     console.log(`All users are now in a better place... Tulum`);
     console.log(`All projects are now in a better place... Acapulco`);
   } catch (error) {
@@ -21,7 +23,7 @@ import faker from "faker";
   const booleans = [false, true];
   let ids = [];
 
-  const userPromises = Array(20)
+  const userPromises = Array(30)
     .fill(null)
     .map(() => {
       const userData = {

@@ -21,11 +21,11 @@ import auth from '../middlewares/authentication/auth.js'
 import isAdmin from '../middlewares/authentication/isAdmin.js'
 import isOwner from '../middlewares/projectMiddlewares/isOwner.js'
 import uploadProjectImage from '../middlewares/uploadProjectImage.js'
-import { findDuplicateProject } from '../middlewares/projectMiddlewares/projectValidation.js'
+import { findDuplicateProject, sanitizeProject, sanitizeJob, sanitizeUpdateProject, sanitizeUpdateJob } from '../middlewares/projectMiddlewares/projectValidation.js'
 
 router.route('/')
 .get(getAllProjects)
-.post(auth, findDuplicateProject, createProject);
+.post(auth, sanitizeProject(), findDuplicateProject, createProject);
 
 router.route('/ownProjects')
 .get(auth, isOwner, getOwnProjects);
@@ -37,13 +37,13 @@ router.route('/:id')
 // route to access to the detailes of each owned Project, update and delete also posible just by the owner.
 router.route('/ownProjects/:id')
 .get(auth, isOwner, getOwnProject)
-.put(auth, isOwner, uploadProjectImage, updateOwnProject)
+.put(auth, isOwner ,uploadProjectImage, updateOwnProject)
 .delete(auth, isOwner, deleteOwnProject);
 
 
 router.route('/ownProjects/:id/jobList')
 .get(auth, isOwner, getJobList)
-.post(auth, isOwner, addJob)
+.post(auth, isOwner, sanitizeJob(),addJob)
 
 
 router.route('/ownProjects/:id/jobList/:jobListId')

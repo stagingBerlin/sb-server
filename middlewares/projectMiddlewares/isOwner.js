@@ -9,7 +9,7 @@ const isOwner = async (req, res, next) => {
 
             const ownedProjects = await Project.find({ owner: req.user._id })
             .sort('title')
-            .populate('owner')
+            // .populate('owner')
             .populate({
                 path: 'jobList', 
                 populate: {
@@ -34,7 +34,7 @@ const isOwner = async (req, res, next) => {
         }
         else {  // else, the object params contains the id of the requested project
             const projectdb = await Project.findById(id)
-            .populate('owner')
+            // .populate('owner')
             .populate({
                 path: 'jobList', 
                 populate: {

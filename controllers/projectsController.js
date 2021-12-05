@@ -54,17 +54,7 @@ export const createProject = async (req, res, next) => {
             { new: true } 
         )
 
-        const populatedProject = await Project.findById(createdProject._id)
-        .populate('owner')
-        .populate('jobList.participant')
-        .populate({
-            path: 'jobList', 
-            populate: {
-                path: 'job',
-            },
-        });
-
-    res.json(populatedProject);
+    res.json(createdProject );
     } catch (error) {
         next(error)
     }
@@ -118,6 +108,7 @@ export const updateOwnProject = async (req, res, next) => {
     const id = req.project._id;
     const newData = req.body
     try {
+        // console.log(req.cloudProjectUrl);
         const updatedProject = await Project.findByIdAndUpdate(
             id, 
             {
