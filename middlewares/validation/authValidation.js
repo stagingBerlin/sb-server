@@ -57,7 +57,11 @@ export const generateUsername = (req, res, next) => {
   const { email } = req.body;
   try {
     const username =  email.split('@')[0];
+    const name =  email.split('@')[0];
+
     req.body.username = username;
+    req.body.name = name
+    
     next()
   } catch (error) {
     next(error);
