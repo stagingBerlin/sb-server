@@ -42,7 +42,10 @@ const NotificationSchema = new Schema({
     replyMessage: { 
         type: String, 
         required: false, 
-    }
+    },
+    jobSlotId: String,
+    job: String, 
+    jobDescription: String
 },{
     versionKey: false,
     timestamps: true

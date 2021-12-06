@@ -18,6 +18,7 @@ export const createNotification = async (req, res, next) => {
             .populate("bookmark")
             .select("-password")
 
+            // console.log(notification );
         res.json(user)
     } catch (error) {
         next(error);
