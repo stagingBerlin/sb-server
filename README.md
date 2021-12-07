@@ -11,7 +11,7 @@
  Web based Job-searching Platform for independent Theatre Professionals in Berlin
   </p>
   <p align="center">
-    <a target="_blank" href="https://staging-berlin.vercel.app/"><strong>App Link</strong></a>
+    <a target="_blank" href="https://staging-berlin.vercel.app/"><strong>App Link</strong></a><br />
     <a target="_blank" href="https://staging-berlin-api.vercel.app/"><strong>Server Link</strong></a>
   </p>
    <p align="center">(deployed via Vercel)</p>
