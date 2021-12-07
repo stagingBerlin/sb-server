@@ -37,7 +37,9 @@ router.route('/:id')
 // route to access to the detailes of each owned Project, update and delete also posible just by the owner.
 router.route('/ownProjects/:id')
 .get(auth, isOwner, getOwnProject)
-.put(auth, isOwner ,uploadProjectImage, updateOwnProject)
+.put(auth, isOwner ,uploadProjectImage, 
+    sanitizeProject(), 
+    updateOwnProject)
 .delete(auth, isOwner, deleteOwnProject);
 
 
@@ -47,7 +49,7 @@ router.route('/ownProjects/:id/jobList')
 
 
 router.route('/ownProjects/:id/jobList/:jobListId')
-.put(auth, isOwner, updateJobSlot)
+.put(auth, isOwner, sanitizeJob() ,updateJobSlot)
 .delete(auth, isOwner, deleteJobSlot)
 
 

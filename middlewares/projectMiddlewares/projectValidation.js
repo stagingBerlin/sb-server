@@ -17,15 +17,18 @@ export const findDuplicateProject = async (req, res, next) => {
 }
 
 export const sanitizeProject = () => {
+    
+
    return [
-        body("title").escape(),
-        body("authorship").escape(),
-        body("description").escape()
+    // body('date', 'date must be a valid date').optional({ checkFalsy: true }).isISO8601()
+        body("title").optional({ checkFalsy: true }).escape(),
+        body("authorship").optional({ checkFalsy: true }).escape(),
+        body("description").optional({ checkFalsy: true }).escape()
     ]
 }
 
 export const sanitizeJob = () => {
-    return [body("jobDescription").escape()]
+    return [body("jobDescription").optional({ checkFalsy: true }).escape()]
 }
 
 const checkBody = buildCheckFunction(['body']);
