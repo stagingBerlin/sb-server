@@ -4,7 +4,6 @@ import User from '../models/User.js'
 
 export const createNotification = async (req, res, next) => {
     const { projectId } = req.body
-    
     try {
         const data = { ...req.body, fromUser: req.user._id }
         const notification = await Notification.create(data)
@@ -32,7 +31,7 @@ export const getUserNotifications = async (req, res, next) => {
             .populate('projectId')
             .populate('fromUser')
             .populate('toUser')
-
+   
             res.json(userNotifications)
     } catch (error) {
         next(error);
@@ -40,7 +39,6 @@ export const getUserNotifications = async (req, res, next) => {
 }
 
 export const updateNotification = async (req, res, next) => {
-    // const { status, replyMessage } = req.body
     const body = req.body
     const {id} = req.params
     try {

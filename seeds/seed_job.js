@@ -3,16 +3,6 @@ import '../configs/mongo-connect.js'
 import Job from '../models/Job.js'
 
 
-const jobs = [
-    {title: "Actor"},
-    {title: "Costume"},
-    {title: "Dancer"},
-    {title: "Lights"},
-    {title: "Musician"},
-    {title: "Photographer"},
-    {title: "Stage-set"},
-    {title: "Singer"},
-];
 
 (async function(){
     try {
