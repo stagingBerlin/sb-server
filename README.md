@@ -12,6 +12,7 @@
   </p>
   <p align="center">
     <a target="_blank" href="https://staging-berlin.vercel.app/"><strong>App Link</strong></a>
+    <a target="_blank" href="https://staging-berlin-api.vercel.app/"><strong>Server Link</strong></a>
   </p>
    <p align="center">(deployed via Vercel)</p>
   
