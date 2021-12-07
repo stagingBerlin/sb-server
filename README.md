@@ -13,6 +13,7 @@
   <p align="center">
     <a target="_blank" href="https://staging-berlin.vercel.app/"><strong>App Link</strong></a>
   </p>
+   <p align="center">(deployed via Vercel)</p>
   
 ## Built With
 
@@ -31,13 +32,14 @@
   <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot1.png"><img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot1.png" alt="Screenshot" width="400" height="190"></a>
   <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot2.png"><img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot2.png" alt="Screenshot" width="400" height="190"></a>
  <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot3.png"> <img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot3.png" alt="Screenshot" width="400" height="190"></a>
+ <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/new4.png"> <img src="https://github.com/stagingBerlin/sb-front/blob/main/public/new4.png" alt="Screenshot" width="400" height="190"></a>
   
 </p>
 
 ## Contact
-Daniel Matczak [Github](https://github.com/danielczak) - daniel.matczak@network.rca.ac.uk <br />
-Habid Badillo Bespinosa [Github](https://github.com/habidbesp) - habidbespinosa@gmail.com <br />
-Shinhee Chae [Github](https://github.com/shinheechae) - shinheechae@gmail.com <br />
+[Daniel Matczak (Github)](https://github.com/danielczak) - daniel.matczak@network.rca.ac.uk <br />
+[Habid Badillo Bespinosa (Github)](https://github.com/habidbesp) - habidbespinosa@gmail.com <br />
+[Shinhee Chae (Github)](https://github.com/shinheechae) - shinheechae@gmail.com <br />
               
 
 ## Acknowledgements
@@ -45,5 +47,3 @@ Shinhee Chae [Github](https://github.com/shinheechae) - shinheechae@gmail.com <b
 * [Project Link](https://github.com/stagingBerlin)
 * [GitHub Project](https://pages.github.com)
 * [Trello](https://trello.com/)
-
-
