@@ -44,6 +44,6 @@ Shinhee Chae [Github](https://github.com/shinheechae) - shinheechae@gmail.com <b
 
 * [Project Link](https://github.com/stagingBerlin)
 * [GitHub Project](https://pages.github.com)
-* [trello](https://trello.com/)
+* [Trello](https://trello.com/)
 
 
