@@ -1,131 +1,49 @@
-# Backend flow when a project will be created.
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a target="_blank" href="https://github.com/stagingBerlin/sb-front/blob/main/public/img/LogoGrey.png">
+    <img src="https://github.com/stagingBerlin/sb-front/blob/main/public/img/LogoGrey.png" alt="Logo" width="150" height="180">
+  </a>
+ </p>
+  <h3 align="center">Staging Berlin</h3>
 
-## Create a project:
+  <p align="center">
+ Web based Job-searching Platform for independent Theatre Professionals in Berlin
+  </p>
+  <p align="center">
+    <a target="_blank" href="https://staging-berlin.vercel.app/"><strong>App Link</strong></a>
+  </p>
+  
+## Built With
 
-to create a project, the frontend needs to send an object with 3 keys: title, description, and authorship, all of them "type of String".
+* [ReactJS](https://reactjs.org/)
+* [Express](https://expressjs.com/)
+* [Mongoose](https://mongoosejs.com/)
+* [MongoDB](https://www.mongodb.com/cloud/atlas?utm_content=rlsapostreg&utm_source=google&utm_campaign=gs_emea_rlsamulti_search_brand_dsa_atlas_desktop_rlsa_postreg&utm_term=&utm_medium=cpc_paid_search&utm_ad=b&utm_ad_campaign_id=14412646473&gclid=Cj0KCQjwkIGKBhCxARIsAINMioIyMxUNrRdawAnWoV8sA15dkmCwz9HL-QdMTRDK2_Q6rXjdo-8MsuQaAr-OEALw_wcB)
+* [Material-UI](https://material-ui.com)
+* [SASS](https://sass-lang.com/)
+* [Vercel](https://vercel.com)
 
-Method: POST,<br />
-Route:
+<!-- ABOUT THE PROJECT -->
+## About The Project
+<p align="center">
 
-```bash
-'/projects'
-```
+  <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot1.png"><img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot1.png" alt="Screenshot" width="400" height="190"></a>
+  <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot2.png"><img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot2.png" alt="Screenshot" width="400" height="190"></a>
+ <a href="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot3.png"> <img src="https://github.com/stagingBerlin/sb-front/blob/main/public/Screenshot3.png" alt="Screenshot" width="400" height="190"></a>
+  
+</p>
 
-Body:
+## Contact
+Daniel Matczak [Github](https://github.com/danielczak) - daniel.matczak@network.rca.ac.uk <br />
+Habid Badillo Bespinosa [Github](https://github.com/habidbesp) - habidbespinosa@gmail.com <br />
+Shinhee Chae [Github](https://github.com/shinheechae) - shinheechae@gmail.com <br />
+              
 
-```bash
-{
-    title: "String",
-    description: "String",
-    authorship: "String"
-}
+## Acknowledgements
 
-```
+* [Project Link](https://github.com/stagingBerlin)
+* [GitHub Project](https://pages.github.com)
+* [trello](https://trello.com/)
 
-## Fill the jobList array
 
-Once the project is created, the user will proceed to add a required job in the jobList array in the project document, ( job offers ).<br />
-The frontend needs to send an Object with 2 keys, job (value will be id of the job) and description of the required job. <br />
-If everything goes well, an object will be created in the jobList array with its own "\_id".
-
-Method: PUT,<br />
-Route:
-
-```bash
-'/projects/ownProjects/:id/jobList'
-```
-
-Body:
-
-```bash
-{
-    job: "id of job in Data Base",
-    jobDescription: "Description of the required job"
-}
-```
-
-## Update and delete items in the jobList array.
-
-Once a job has been created in the jobList array, we can provide the possibility to the user to update the description or delete whole job from the jobList array.
-
-### Update
-
-to update description or job, you need to send as params: project id and id of the item to be updated in the jobList ( jobListId ).
-
-Method: PUT<br />
-params: ownProject id (:id) and jobListId (:jobListId)<br />
-Route:
-
-```bash
-'/projects/ownProjects/:id/jobList/:jobListId'
-```
-
-Body:
-
-```bash
-{
-    jobDescription: "...other description"
-}
-```
-
-or
-
-```bash
-{
-    job: "...other job id"
-}
-```
-
-or
-
-```bash
-{
-    job: "...other job id",
-    description: "...other description"
-}
-```
-
-### Delete
-
-To delete an Item in the jobList array, we will call the same route, but this time will be a Delete request.
-
-Method: DELETE<br />
-params: ownProject id (:id) and jobListId (:jobListId)<br />
-Route:
-
-```bash
-'/projects/ownProjects/:id/jobList/:jobListId'
-```
-
-## Adding a participant to fill a job position in the project.
-
-once our project's owner, ( project manager ), get requests from other users to be part in the project, our owner will be able to add a "participant" to fill the required job with one of the aspirants applying for the project.
-
-Let's check how it works:
-
-Method: PUT
-
-params: ownProject id (:id), jobListId (:jobListId) and participant id (:participantId)
-
-Route:
-
-```bash
-'/projects/ownProjects/:id/jobList/:jobListId/participant/:participantId'
-```
-
-## Deleteing the participant from the jobList.
-
-If our project owner decides ( project manager ) decides to a user out of the project but leaving the space available for another user, the owner will have a route to fire someone 😬.
-We will call the same route in this case.
-
-Method: DELETE
-
-params: ownProject id (:id), jobListId (:jobListId) and participant id (:participantId)
-
-Route:
-
-```bash
-'/projects/ownProjects/:id/jobList/:jobListId/participant/:participantId'
-```
-
-That's it for now, Happy Coding! 😉
