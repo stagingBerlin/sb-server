@@ -11,11 +11,42 @@ import faker from "faker";
     await User.deleteMany({});
     await Project.deleteMany({});
     await Notification.deleteMany({});
+    await Job.deleteMany({});
+    console.log(`All jobs are now in a better place... Cancun`);
     console.log(`All users are now in a better place... Tulum`);
     console.log(`All projects are now in a better place... Acapulco`);
   } catch (error) {
     console.log(error);
   }
+
+
+
+  const jobs = [
+    {title: "Actor"},
+    {title: "Costume"},
+    {title: "Dancer"},
+    {title: "Lights"},
+    {title: "Musician"},
+    {title: "Photographer"},
+    {title: "Stage-set"},
+    {title: "Singer"},
+];
+
+const jobsPromises = jobs.map(job => {
+  const jobData = { title: job.title }
+  console.log(`Job ${jobData.title} has been created`);
+  const jobToDB = new Job(jobData)
+  return jobToDB.save()
+})
+
+try {
+  await Promise.all(jobsPromises);
+  console.log(`****************************************************`);
+  console.log(`All Jobs have been stored to the DB`);
+  console.log(`****************************************************`);
+} catch (error) {
+  console.log(error);
+}
 
   const allJobs = await Job.find();
   const jobsIds = allJobs.map((job) => job._id);

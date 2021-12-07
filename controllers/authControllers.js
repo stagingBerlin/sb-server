@@ -27,7 +27,9 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email })
     .populate("profession")
-    .populate("ownedProject");
+    .populate("ownedProject")
+    .populate("appliedProject")
+    .populate("bookmark");
     
     if (!user) throw new createError(404, `Email not valid`);
 
